@@ -1,0 +1,1277 @@
+﻿@model BarbeariaWeb.Areas.Identity.Models.UsuariosModel
+
+<style>
+    @@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+    * {
+        padding: 0;
+        margin: 0;
+        scroll-behavior: smooth;
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-style: normal;
+    }
+
+    .control-body {
+        background-color: #f0efee;
+    }
+
+    /* Controle */
+
+    .control-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fcfcfc;
+        height: 100px;
+        padding: 0 20px;
+        box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.219);
+    }
+
+        .control-header > a > img {
+            width: 90px;
+        }
+
+        .control-header > a {
+            width: 90px;
+            cursor: pointer;
+        }
+
+    .control-flag {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .control-flag p {
+            font-size: 25px;
+            font-family: "Bebas Neue", serif;
+            font-weight: 400;
+        }
+
+    /* ----- */
+
+    .switch {
+        padding: 40px 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        position: relative;
+    }
+
+    #graficContainer, #changeContainer {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+    }
+
+        #graficContainer > h2, #changeContainer > h2 {
+            text-align: center;
+            font-family: "Bebas Neue", serif;
+            font-weight: 400;
+            font-size: 30px;
+        }
+
+    #switchToChange, #switchToGrafic {
+        border: 1px solid #ccc;
+        width: 180px;
+        padding: 15px 0;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        font-weight: 500;
+        position: absolute;
+        top: 0;
+        cursor: pointer;
+        transition: all 0.8s;
+    }
+
+    #switchToChange {
+        right: 10px;
+    }
+
+    #switchToGrafic {
+        left: 10px;
+    }
+
+        #switchToChange:hover, #switchToGrafic:hover {
+            background-color: #ccc;
+        }
+
+    .switch div {
+        transition: transform 0.4s ease-in-out;
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    /* ----- */
+
+    .loader-wrapper {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+    }
+
+
+    .loader {
+        --path: #2f3545;
+        --dot: #5628ee;
+        --duration: 3s;
+        width: 44px;
+        height: 44px;
+        position: relative;
+    }
+
+        .loader:before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            position: absolute;
+            display: block;
+            background: var(--dot);
+            top: 37px;
+            left: 19px;
+            transform: translate(-18px, -18px);
+            animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .loader svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+            .loader svg rect,
+            .loader svg polygon,
+            .loader svg circle {
+                fill: none;
+                stroke: var(--path);
+                stroke-width: 10px;
+                stroke-linejoin: round;
+                stroke-linecap: round;
+            }
+
+            .loader svg polygon {
+                stroke-dasharray: 145 76 145 76;
+                stroke-dashoffset: 0;
+                animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+            }
+
+            .loader svg rect {
+                stroke-dasharray: 192 64 192 64;
+                stroke-dashoffset: 0;
+                animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+            }
+
+            .loader svg circle {
+                stroke-dasharray: 150 50 150 50;
+                stroke-dashoffset: 75;
+                animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+            }
+
+        .loader.triangle {
+            width: 48px;
+        }
+
+            .loader.triangle:before {
+                left: 21px;
+                transform: translate(-10px, -18px);
+                animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+            }
+
+    @@keyframes pathTriangle {
+        33% {
+            stroke-dashoffset: 74;
+        }
+
+        66% {
+            stroke-dashoffset: 147;
+        }
+
+        100% {
+            stroke-dashoffset: 221;
+        }
+    }
+
+    @@keyframes dotTriangle {
+        33% {
+            transform: translate(0, 0);
+        }
+
+        66% {
+            transform: translate(10px, -18px);
+        }
+
+        100% {
+            transform: translate(-10px, -18px);
+        }
+    }
+
+    @@keyframes pathRect {
+        25% {
+            stroke-dashoffset: 64;
+        }
+
+        50% {
+            stroke-dashoffset: 128;
+        }
+
+        75% {
+            stroke-dashoffset: 192;
+        }
+
+        100% {
+            stroke-dashoffset: 256;
+        }
+    }
+
+    @@keyframes dotRect {
+        25% {
+            transform: translate(0, 0);
+        }
+
+        50% {
+            transform: translate(18px, -18px);
+        }
+
+        75% {
+            transform: translate(0, -36px);
+        }
+
+        100% {
+            transform: translate(-18px, -18px);
+        }
+    }
+
+    @@keyframes pathCircle {
+        25% {
+            stroke-dashoffset: 125;
+        }
+
+        50% {
+            stroke-dashoffset: 175;
+        }
+
+        75% {
+            stroke-dashoffset: 225;
+        }
+
+        100% {
+            stroke-dashoffset: 275;
+        }
+    }
+
+    .loader {
+        display: inline-block;
+        margin: 0 16px;
+    }
+
+    /* ----- */
+
+    /* ----- */
+
+    .edit-box {
+        max-width: 800px;
+        margin: 0 auto 60px auto;
+        background: #fff;
+        padding: 20px 20px 60px 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .edit-font {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+    }
+
+        .edit-font h2 {
+            text-align: left;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .edit-font > button {
+            padding: 15px 0;
+            width: 50px;
+            background-color: #0b9e37;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.8s;
+        }
+
+            .edit-font > button:hover {
+                transform: scale(0.95);
+            }
+
+    /* Estilização da tabela */
+    .table-nc {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        margin: 15px auto 0 auto;
+        text-align: center;
+    }
+
+        .table-nc > thead > tr > th, .table-nc > tbody > tr > td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-nc > thead > tr > th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+
+    .actions button {
+        border: none;
+        cursor: pointer;
+        padding: 5px 8px;
+        border-radius: 3px;
+        margin-right: 5px;
+    }
+
+    .edit {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    .delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .edit i, .delete i {
+            font-size: 14px;
+        }
+
+    /* Botões superiores */
+
+    /* .botoes{
+                                                                                                width: 100%;
+                                                                                                display: inline-flex;
+                                                                                                justify-content: center;
+                                                                                                align-items: center;
+                                                                                                gap: 20px;
+                                                                                            } */
+
+    .btn {
+        width: 130px;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    /* .btn-secondary {
+                                                                                                background-color: #6c757d;
+                                                                                                color: white;
+                                                                                            } */
+
+    /* --- */
+
+    /* Modal */
+    .modal-nc, .add-ph, .add-ep {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 90%;
+        max-width: 500px;
+        /* text-align: center; */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+        .modal-content h3 {
+            font-size: 23px;
+            font-weight: 500;
+            text-align: center;
+            padding-bottom: 30px;
+        }
+
+        .modal-content label {
+            font-weight: 400;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 8px 0;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-indent: 10px;
+            font-size: 16px;
+        }
+
+    .button-modal {
+        text-align: center;
+        margin: 20px 0 0 0;
+    }
+
+    #dayOffContainer, #editColorContainer, #createColorContainer, #createDayOffContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+        #dayOffContainer label, #editColorContainer label, #createColorContainer label, #createDayOffContainer label {
+            display: inline-block;
+            padding: 10px 0;
+            margin: 5px;
+            border: 2px solid #007bff;
+            border-radius: 6px;
+            background-color: #ffffff;
+            color: #007bff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none; /* Impede a seleção do texto */
+            width: 90px;
+            text-align: center;
+        }
+
+        #dayOffContainer input[type="checkbox"], #createDayOffContainer input[type="checkbox"],
+        #editColorContainer input[type="radio"], #createColorContainer input[type="radio"] {
+            display: none;
+        }
+
+            /* Quando o checkbox está marcado, muda a cor do botão */
+            #dayOffContainer input[type="checkbox"]:checked + label,
+            #createDayOffContainer input[type="checkbox"]:checked + label, #editColorContainer input[type="radio"]:checked + label, #createColorContainer input[type="radio"]:checked + label {
+                background-color: #007bff;
+                color: white;
+            }
+
+    /* --- */
+
+    .hour-select {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #ccc;
+        width: 90%;
+    }
+
+        .hour-select > select:nth-child(2) {
+            margin-right: 40px;
+        }
+
+    /* --- */
+
+    /* Estilo para as caixas dos dias de folga */
+    .day-off {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .day-box {
+        background-color: #f1f1f1;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 14px;
+        color: #333;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- */
+
+    .user-footer {
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 40px 0;
+        box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.219);
+        width: 100%;
+    }
+
+    .footer-max {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 80%;
+        max-width: 1300px;
+    }
+
+        .footer-max h2 {
+            font-size: 25px;
+            font-family: "Bebas Neue", serif;
+            font-weight: 400;
+            text-align: left;
+            width: 50%;
+        }
+
+        .footer-max h3 {
+            font-size: 20px;
+            font-family: "Bebas Neue", serif;
+            font-weight: 400;
+            text-align: left;
+            width: 50%;
+        }
+
+    /* -- */
+
+    .pf-wrapper {
+        display: inline-flex;
+        list-style: none;
+        height: 70px;
+        width: 50%;
+        font-family: "Poppins", sans-serif;
+        justify-content: end;
+    }
+
+        .pf-wrapper .icon > a > img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .pf-wrapper .icon {
+            position: relative;
+            background: #fff;
+            border-radius: 50%;
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .pf-wrapper > .icon > a {
+            width: 50px;
+            height: 50px;
+        }
+
+        .pf-wrapper .tooltip {
+            position: absolute;
+            top: 0;
+            font-size: 14px;
+            background: #fff;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+            .pf-wrapper .tooltip::before {
+                position: absolute;
+                content: "";
+                height: 8px;
+                width: 8px;
+                background: #fff;
+                bottom: -3px;
+                left: 50%;
+                transform: translate(-50%) rotate(45deg);
+                transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+        .pf-wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .pf-wrapper .icon:hover span,
+        .pf-wrapper .icon:hover .tooltip {
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .pf-wrapper .email:hover,
+        .pf-wrapper .email:hover .tooltip,
+        .pf-wrapper .email:hover .tooltip::before {
+            background: #cace02;
+            color: #fff;
+        }
+
+        .pf-wrapper .phone:hover,
+        .pf-wrapper .phone:hover .tooltip,
+        .pf-wrapper .phone:hover .tooltip::before {
+            background: #0b9e37;
+            color: #fff;
+        }
+
+    /* --- */
+
+    @@media screen and (max-width: 650px) {
+        .switch {
+            padding: 40px 0 100px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+
+        #switchToChange, #switchToGrafic {
+            border: 1px solid #ccc;
+            width: 120px;
+            font-size: 12px;
+            padding: 15px 0;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+            font-weight: 500;
+            position: absolute;
+            top: 60px;
+            cursor: pointer;
+            transition: all 0.8s;
+        }
+
+
+        .not-imp {
+            display: none;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px 10px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .hour-select {
+            gap: 5px;
+        }
+
+        .footer-max h2 {
+            width: 80%;
+        }
+
+        .footer-max h3 {
+            width: 80%;
+        }
+
+        .pf-wrapper {
+            width: 80%;
+        }
+    }
+</style>
+
+<link rel="stylesheet" href="~/lib/datatable/datatables.min.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/lib/fontawesome/all.min.css" />
+<link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    @* <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+          rel="stylesheet" /> *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+</head>
+<body class="control-body">
+    <header class="control-header">
+        <a href="http://www.theuz.eu" target="_blank" rel="noopener noreferrer">
+            <img src="img/theuz.png" alt="logo" />
+        </a>
+        <div class="control-flag">
+            <p>User name</p>
+        </div>
+    </header>
+    <main class="user-main">
+        <section class="switch">
+            <div id="graficContainer">
+                <h2>Grafic OverView</h2>
+                <button id="switchToChange">Switch to Change</button>
+            </div>
+
+            <div id="changeContainer" class="hidden">
+                <h2>Change Infos</h2>
+                <button id="switchToGrafic">Switch to Grafic</button>
+            </div>
+        </section>
+
+        <!-- Loader Container -->
+        <div id="loaderContainer" class="loader-wrapper">
+            <div class="loader">
+                <svg viewBox="0 0 80 80">
+                    <circle r="32" cy="40" cx="40"></circle>
+                </svg>
+            </div>
+
+            <div class="loader triangle">
+                <svg viewBox="0 0 86 80">
+                    <polygon points="43 8 79 72 7 72"></polygon>
+                </svg>
+            </div>
+
+            <div class="loader">
+                <svg viewBox="0 0 80 80">
+                    <rect height="64" width="64" y="8" x="8"></rect>
+                </svg>
+            </div>
+        </div>
+
+        <section id="graficSection" class="user-grafic">
+            <div class="grafic-all">
+                <img src="https://placehold.co/50x30?text=Grafic" alt="Grafico" />
+            </div>
+
+            <div class="grafic-buttons">
+                <div class="grafic-day">
+                    <button>Day</button>
+                    <button>Month</button>
+                    <button>Year</button>
+                </div>
+                <div class="grafic-employe">
+                    <button>01</button>
+                    <button>02</button>
+                    <button>03</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="employeeSection" class="user-employe hidden">
+            <div class="edit-box">
+                <div class="edit-font">
+                    <h2>Funcionários</h2>
+                    <button id="addEmployee"><i class="fa-solid fa-user-plus"></i></button>
+                </div>
+                <table id="MyTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Data Inicio</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.listUsuarios)
+                        {
+                            <tr>
+                                <td>@item.cId</td>
+                                <td>@item.rNome</td>
+                                <td>@item.dtInicio</td>
+                                <td>
+                                    <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="editModal-NC" class="modal-nc">
+                <div class="modal-content">
+                    <h3>Edit User</h3>
+                    <label>Name:</label>
+                    <input type="text" id="editName" />
+                    <label>Color:</label>
+                    <div id="editColorContainer">
+                        <input type="radio" id="preto" name="color" value="Preto" />
+                        <label for="preto">Preto</label>
+
+                        <input type="radio" id="azul" name="color" value="Azul" />
+                        <label for="azul">Azul</label>
+
+                        <input type="radio" id="roxo" name="color" value="Roxo" />
+                        <label for="roxo">Roxo</label>
+
+                        <input type="radio" id="verde" name="color" value="Verde" />
+                        <label for="verde">Verde</label>
+                    </div>
+
+                    <label>Day-Off</label>
+                    <div id="dayOffContainer">
+                        <input type="checkbox"
+                               id="segunda"
+                               name="day-off"
+                               value="Segunda" />
+                        <label for="segunda">Segunda</label>
+
+                        <input type="checkbox" id="terca" name="day-off" value="Terça" />
+                        <label for="terca">Terça</label>
+
+                        <input type="checkbox"
+                               id="quarta"
+                               name="day-off"
+                               value="Quarta" />
+                        <label for="quarta">Quarta</label>
+
+                        <input type="checkbox"
+                               id="quinta"
+                               name="day-off"
+                               value="Quinta" />
+                        <label for="quinta">Quinta</label>
+
+                        <input type="checkbox" id="sexta" name="day-off" value="Sexta" />
+                        <label for="sexta">Sexta</label>
+
+                        <input type="checkbox"
+                               id="sabado"
+                               name="day-off"
+                               value="Sábado" />
+                        <label for="sabado">Sábado</label>
+
+                        <input type="checkbox"
+                               id="domingo"
+                               name="day-off"
+                               value="Domingo" />
+                        <label for="domingo">Domingo</label>
+                    </div>
+
+                    <div class="hour-select">
+                        <label>Entrada:</label>
+                        <select id="editEntrada"></select>
+                        <label>Saída:</label>
+                        <select id="editSaida"></select>
+                    </div>
+                    <div class="hour-select">
+                        <label>Almoço:</label>
+                        <select id="editAlmoco"></select>
+                        <label>Volta:</label>
+                        <select id="editVolta"></select>
+                    </div>
+                    <div class="button-modal">
+                        <button class="btn btn-primary"
+                                onclick="closeModal('editModal-NC')">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="add-ep">
+                <div class="modal-content">
+                    <h3>Create User</h3>
+                    <label>Name:</label>
+                    <input type="text" id="createUserName" />
+
+                    <label>Color:</label>
+                    <div id="createColorContainer">
+                        <!-- Mudança de ID -->
+                        <input type="radio" id="create-preto" name="create-color" value="Preto" />
+                        <label for="create-preto">Preto</label>
+
+                        <input type="radio" id="create-azul" name="create-color" value="Azul" />
+                        <label for="create-azul">Azul</label>
+
+                        <input type="radio" id="create-roxo" name="create-color" value="Roxo" />
+                        <label for="create-roxo">Roxo</label>
+
+                        <input type="radio" id="create-verde" name="create-color" value="Verde" />
+                        <label for="create-verde">Verde</label>
+                    </div>
+
+                    <label>Day-Off</label>
+                    <div id="createDayOffContainer">
+                        <!-- Mudança de ID -->
+                        <input type="checkbox" id="create-segunda" name="create-day-off" value="Segunda" />
+                        <label for="create-segunda">Segunda</label>
+
+                        <input type="checkbox" id="create-terca" name="create-day-off" value="Terça" />
+                        <label for="create-terca">Terça</label>
+
+                        <input type="checkbox" id="create-quarta" name="create-day-off" value="Quarta" />
+                        <label for="create-quarta">Quarta</label>
+
+                        <input type="checkbox" id="create-quinta" name="create-day-off" value="Quinta" />
+                        <label for="create-quinta">Quinta</label>
+
+                        <input type="checkbox" id="create-sexta" name="create-day-off" value="Sexta" />
+                        <label for="create-sexta">Sexta</label>
+
+                        <input type="checkbox" id="create-sabado" name="create-day-off" value="Sábado" />
+                        <label for="create-sabado">Sábado</label>
+
+                        <input type="checkbox" id="create-domingo" name="create-day-off" value="Domingo" />
+                        <label for="create-domingo">Domingo</label>
+                    </div>
+
+                    <div class="button-modal">
+                        <button class="btn btn-primary" id="create-nc">Create</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--  -->
+
+            <div class="edit-box">
+                <div class="edit-font">
+                    <h2>Produto e Hora</h2>
+                    <button id="addProduct"><i class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <table class="table-nc" data-modal="PH">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Hour</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Produto01</td>
+                            <td>30min</td>
+                            <td class="actions">
+                                <button class="edit" onclick="openModal(this)">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Produto02</td>
+                            <td>1h</td>
+                            <td class="actions">
+                                <button class="edit" onclick="openModal(this)">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Produto03</td>
+                            <td>2h</td>
+                            <td class="actions">
+                                <button class="edit" onclick="openModal(this)">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Produto04</td>
+                            <td>15min</td>
+                            <td class="actions">
+                                <button class="edit" onclick="openModal(this)">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- <div class="botoes">
+                  <button class="btn btn-primary">Salvar</button>
+                  <button class="btn btn-secondary">Cancelar</button>
+                </div> -->
+            </div>
+            <!--  -->
+            <div id="editModal-PH" class="modal-nc">
+                <div class="modal-content">
+                    <h3>Edit User</h3>
+                    <label>Product:</label>
+                    <input type="text" id="editName" />
+                    <label>Hour:</label>
+                    <select name="" id="">
+                        <option value="15min">15min</option>
+                        <option value="30min">30min</option>
+                        <option value="1h">1h</option>
+                        <option value="2h">2h</option>
+                    </select>
+                    <div class="button-modal">
+                        <button class="btn btn-primary"
+                                onclick="closeModal('editModal-PH')">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="add-ph">
+                <div class="modal-content">
+                    <h3>Add Product and Hour</h3>
+                    <label>Product:</label>
+                    <input type="text" id="editName" />
+                    <label>Hour:</label>
+                    <select name="" id="">
+                        <option value="15min">15min</option>
+                        <option value="30min">30min</option>
+                        <option value="1h">1h</option>
+                        <option value="2h">2h</option>
+                    </select>
+                    <div class="button-modal">
+                        <button class="btn btn-primary"
+                                onclick="closeModal('editModal-PH')" id="create-ph">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="user-footer">
+        <div class="footer-max">
+
+
+            <h2>Had any Problem?</h2>
+            <h3>Contact Us</h3>
+            <ul class="pf-wrapper">
+                <li class="icon email">
+                    <span class="tooltip">Email</span>
+                    <a href="mailto:theuz.solutions@gmail.com"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <img src="./img/email.png" alt="Email" />
+                    </a>
+                </li>
+                <li class="icon phone">
+                    <span class="tooltip">Phone</span>
+                    <a href="https://wa.me/+351912371044"
+                       target="_blank"
+                       rel="noreferrer">
+                        <img src="./img/phone.png" alt="Phone" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/datatable/datatables.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+
+<script>
+
+    const loader = document.getElementById("loaderContainer");
+    const graficContainer = document.getElementById("graficContainer");
+    const changeContainer = document.getElementById("changeContainer");
+    const switchToChange = document.getElementById("switchToChange");
+    const switchToGrafic = document.getElementById("switchToGrafic");
+    const graficSection = document.getElementById("graficSection");
+    const employeeSection = document.getElementById("employeeSection");
+
+    // Função para fechar qualquer modal
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Abrir modal de Adicionar Produto
+    const addProductButton = document.getElementById("addProduct");
+    if (addProductButton) {
+        addProductButton.addEventListener("click", function () {
+            document.querySelector(".add-ph").style.display = "flex";
+        });
+    }
+
+    // Abrir modal de Adicionar Empregado
+    const addEmployeeButton = document.getElementById("addEmployee");
+    if (addEmployeeButton) {
+        addEmployeeButton.addEventListener("click", function () {
+            document.querySelector(".add-ep").style.display = "flex";
+        });
+    }
+
+    // Aplica estilo quando um checkbox ou radio é ativado/desativado
+    function toggleCheckboxStyle(input) {
+        const label = document.querySelector(`label[for='${input.id}']`);
+        if (label) {
+            label.classList.toggle("selected", input.checked);
+        }
+    }
+
+    // Fechar modal ao clicar no botão "OK"
+    document.querySelectorAll(".btn-primary").forEach(button => {
+        button.addEventListener("click", function () {
+            const modal = this.closest(".modal-content")?.parentElement;
+            if (modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+    // Aplica evento para alternar a seleção dos botões (day-off e color)
+    document.querySelectorAll("#dayOffContainer input[type='checkbox'], #editColorContainer input[type='radio']")
+        .forEach(input => {
+            input.addEventListener("change", () => toggleCheckboxStyle(input));
+        });
+
+    // Função para preencher os selects com horários corretamente
+    function preencherHorarios() {
+        const horarios = [];
+        for (let h = 6; h <= 23; h++) {
+            horarios.push(`${h}:00`);
+            horarios.push(`${h}:30`);
+        }
+
+        document.querySelectorAll("#editEntrada, #editSaida, #editAlmoco, #editVolta")
+            .forEach(select => {
+                select.innerHTML = horarios.map(h => `<option value="${h}">${h}</option>`).join("");
+            });
+    }
+
+    function showLoaderAndSwitch(callback) {
+        loader.classList.remove("hidden");
+        setTimeout(() => {
+            callback(); // Executa a troca de seção depois do loader
+            loader.classList.add("hidden");
+        }, 2); // Tempo do loader ao alternar as seções
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        preencherHorarios();
+        $("#MyTable").DataTable({
+              language: {
+                 url: "@Url.Content("~/lib/datatable/pt-BR.json")"
+              }
+        });
+
+        // Oculta o loader após 3 segundos ao carregar a página
+        setTimeout(() => {
+            loader.classList.add("hidden");
+        }, 1);
+
+        if (switchToChange) {
+            switchToChange.addEventListener("click", function () {
+                showLoaderAndSwitch(() => {
+                    graficContainer.classList.add("hidden");
+                    changeContainer.classList.remove("hidden");
+                    graficSection.classList.add("hidden");
+                    employeeSection.classList.remove("hidden");
+                });
+            });
+        }
+
+        if (switchToGrafic) {
+            switchToGrafic.addEventListener("click", function () {
+                showLoaderAndSwitch(() => {
+                    changeContainer.classList.add("hidden");
+                    graficContainer.classList.remove("hidden");
+                    graficSection.classList.remove("hidden");
+                    employeeSection.classList.add("hidden");
+                });
+            });
+        }
+    });
+
+    function openModal(button) {
+        const row = button.closest("tr");
+        if (!row) {
+            console.error("Erro: Nenhuma linha encontrada para abrir o modal.");
+            return;
+        }
+
+        const table = row.closest("table");
+        const modalType = table.dataset.modal;
+        const modal = document.getElementById(`editModal-${modalType}`);
+
+        if (!modal) {
+            console.error(`Nenhum modal encontrado para ${modalType}`);
+            return;
+        }
+
+        const cells = [...row.cells].map(cell => cell.textContent.trim());
+        const inputs = modal.querySelectorAll("input, select");
+
+        inputs.forEach((input) => {
+            if (input.tagName === "SELECT") {
+                input.value = cells.find(value => [...input.options].some(opt => opt.value === value)) || "";
+            } else if (input.type === "checkbox") {
+                input.checked = cells.includes(input.value);
+                toggleCheckboxStyle(input);
+            } else if (input.type === "radio") {
+                if (cells.includes(input.value)) {
+                    input.checked = true;
+                    toggleCheckboxStyle(input);
+                }
+            } else {
+                input.value = cells.find(value => value === input.value) || "";
+            }
+        });
+
+        modal.style.display = "flex";
+    }
+
+      function confirmarExclusao() {
+      Swal.fire({
+        title: 'Tem certeza?',
+        text: "Você não poderá reverter isso!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Aqui você coloca o que deve acontecer após a confirmação
+          Swal.fire(
+            'Excluído!',
+            'O item foi removido.',
+            'success'
+          );
+        }
+      });
+    }
+
+</script>

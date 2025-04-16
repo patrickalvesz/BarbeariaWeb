@@ -53,57 +53,59 @@
     /* ----- */
 
     .switch {
-        padding: 40px 0;
+        padding: 5px 0;
         width: 100%;
+        gap: 5px;
         display: flex;
-        justify-content: center;
         align-items: center;
-        flex-direction: column;
-        gap: 20px;
-        position: relative;
+        justify-content: center;
+        background-color: #ddd;
+        animation: appear 3s ease-in-out forwards;
+        animation-timeline: view();
+        animation-range: cover 100% cover 120%;
     }
 
-    #graficContainer, #changeContainer {
-        position: relative;
+    .switch-pad {
         width: 100%;
         max-width: 1200px;
+        margin-left: 10px;
     }
 
-        #graficContainer > h2, #changeContainer > h2 {
-            text-align: center;
-            font-family: "Bebas Neue", serif;
-            font-weight: 400;
-            font-size: 30px;
-        }
-
-    #switchToChange, #switchToGrafic {
-        border: 1px solid #ccc;
-        width: 180px;
-        padding: 15px 0;
-        border-radius: 5px;
-        background-color: white;
-        color: black;
-        font-weight: 500;
-        position: absolute;
-        top: 0;
-        cursor: pointer;
-        transition: all 0.8s;
-    }
-
-    #switchToChange {
-        right: 10px;
-    }
-
+    #switchToChange,
     #switchToGrafic {
-        left: 10px;
+        width: 100px;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
     }
 
-        #switchToChange:hover, #switchToGrafic:hover {
-            background-color: #ccc;
-        }
+    .active-button {
+        background-color: #737679;
+        color: white;
+    }
 
-    .switch div {
-        transition: transform 0.4s ease-in-out;
+    @@keyframes appear {
+        from{
+        translate: 0 -100vh;
+    }
+
+    to {
+        position: fixed;
+        top: 0;
+        left: 0;
+        translate: 0 0;
+        z-index: 9999;
+    }
+
+    }
+
+    .title {
+        text-align: center;
+        font-family: "Bebas Neue", serif;
+        font-weight: 400;
+        font-size: 30px;
+        padding: 20px 0 60px 0;
     }
 
     .hidden {
@@ -658,34 +660,7 @@
     /* --- */
 
     @@media screen and (max-width: 650px) {
-        .switch {
-            padding: 40px 0 100px 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-        }
-
-
-        #switchToChange, #switchToGrafic {
-            border: 1px solid #ccc;
-            width: 120px;
-            font-size: 12px;
-            padding: 15px 0;
-            border-radius: 5px;
-            background-color: white;
-            color: black;
-            font-weight: 500;
-            position: absolute;
-            top: 60px;
-            cursor: pointer;
-            transition: all 0.8s;
-        }
-
-
+        
         .not-imp {
             display: none;
         }
@@ -740,20 +715,15 @@
             <p>User name</p>
         </div>
     </header>
-    <div class="container-fluid mt-5 mr-5 ml-5">
-        <div class="tab-content card border border-secondary p-5 mr-5 ml-5">
-            <main class="user-main">
-                <section class="switch">
-                    <div id="graficContainer">
-                        <h2>Grafic OverView</h2>
-                        <button id="switchToChange">Switch to Change</button>
-                    </div>
+    <main class="user-main">
+        <section class="switch">
+            <div class="switch-pad">
 
-                    <div id="changeContainer" class="hidden">
-                        <h2>Change Infos</h2>
-                        <button id="switchToGrafic">Switch to Grafic</button>
-                    </div>
-                </section>
+                <button id="switchToGrafic">Grafic</button>
+
+                <button id="switchToChange">Control</button>
+            </div>
+        </section>
 
                 <!-- Loader Container -->
                 <div id="loaderContainer" class="loader-wrapper">
@@ -776,10 +746,11 @@
                     </div>
                 </div>
 
-                <section id="graficSection" class="user-grafic">
-                    <div class="grafic-all">
-                        <img src="https://placehold.co/50x30?text=Grafic" alt="Grafico" />
-                    </div>
+        <section id="graficSection" class="user-grafic">
+            <h2 class="title">Grafic OverView</h2>
+            <div class="grafic-all">
+                <img src="https://placehold.co/50x30?text=Grafic" alt="Grafico" />
+            </div>
 
                     <div class="grafic-buttons">
                         <div class="grafic-day">
@@ -795,45 +766,46 @@
                     </div>
                 </section>
 
-                <section id="employeeSection" class="user-employe hidden">
-                    <div class="edit-box">
-                        <div class="edit-font">
-                            <h2>Funcionários</h2>
-                            <button id="addEmployee"><i class="fa-solid fa-user-plus"></i></button>
-                        </div>
-                        <table id="MyTable" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nome</th>
-                                    <th>Data Inicio</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.listUsuarios)
-                                {
-                                    <tr>
-                                        <td>@item.cId</td>
-                                        <td>@item.rNome</td>
-                                        <td>@item.dtInicio</td>
-                                        <td>
-                                            <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="editModal-NC" class="modal-nc">
-                        <div class="modal-content">
-                            <h3>Edit User</h3>
-                            <label>Name:</label>
-                            <input type="text" id="editName" />
-                            <label>Color:</label>
-                            <div id="editColorContainer">
-                                <input type="radio" id="preto" name="color" value="Preto" />
-                                <label for="preto">Preto</label>
+        <section id="employeeSection" class="user-employe hidden">
+            <h2 class="title">Change Infos</h2>
+            <div class="edit-box">
+                <div class="edit-font">
+                    <h2>Funcionários</h2>
+                    <button id="addEmployee"><i class="fa-solid fa-user-plus"></i></button>
+                </div>
+                <table id="MyTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Data Inicio</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.listUsuarios)
+                        {
+                            <tr>
+                                <td>@item.cId</td>
+                                <td>@item.rNome</td>
+                                <td>@item.dtInicio</td>
+                                <td>
+                                    <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="editModal-NC" class="modal-nc">
+                <div class="modal-content">
+                    <h3>Edit User</h3>
+                    <label>Name:</label>
+                    <input type="text" id="editName" />
+                    <label>Color:</label>
+                    <div id="editColorContainer">
+                        <input type="radio" id="preto" name="color" value="Preto" />
+                        <label for="preto">Preto</label>
 
                                 <input type="radio" id="azul" name="color" value="Azul" />
                                 <label for="azul">Azul</label>
@@ -1105,12 +1077,10 @@
 <script>
 
     const loader = document.getElementById("loaderContainer");
-    const graficContainer = document.getElementById("graficContainer");
-    const changeContainer = document.getElementById("changeContainer");
-    const switchToChange = document.getElementById("switchToChange");
-    const switchToGrafic = document.getElementById("switchToGrafic");
-    const graficSection = document.getElementById("graficSection");
-    const employeeSection = document.getElementById("employeeSection");
+      const graficSection = document.getElementById("graficSection");
+      const employeeSection = document.getElementById("employeeSection");
+      // Aplica classe ativa no botão inicial (Grafic)
+      
 
     // Função para fechar qualquer modal
     function closeModal(modalId) {
@@ -1174,49 +1144,72 @@
             });
     }
 
-    function showLoaderAndSwitch(callback) {
-        loader.classList.remove("hidden");
-        setTimeout(() => {
-            callback(); // Executa a troca de seção depois do loader
-            loader.classList.add("hidden");
-        }, 2); // Tempo do loader ao alternar as seções
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
-        preencherHorarios();
-        $("#MyTable").DataTable({
-              language: {
-                 url: "@Url.Content("~/lib/datatable/pt-BR.json")"
-              }
-        });
+        const loader = document.getElementById("loaderContainer");
+        const switchToChange = document.getElementById("switchToChange");
+        const switchToGrafic = document.getElementById("switchToGrafic");
+        const graficSection = document.getElementById("graficSection");
+        const employeeSection = document.getElementById("employeeSection");
 
-        // Oculta o loader após 3 segundos ao carregar a página
+        // 1. Executa função de preenchimento ao iniciar
+        if (typeof preencherHorarios === "function") {
+          preencherHorarios();
+        }
+
+        // 2. Ativa DataTable (jQuery)
+        if (typeof $ !== "undefined" && $("#MyTable").length) {
+          $("#MyTable").DataTable({
+            language: {
+               url: "@Url.Content("~/lib/datatable/pt-BR.json")"
+            },
+          });
+        }
+
+        // 3. Aplica estilo ativo inicial
+        switchToGrafic.classList.add("active-button");
+
+        // 4. Oculta loader após 1 milissegundo no load
         setTimeout(() => {
-            loader.classList.add("hidden");
+          loader.classList.add("hidden");
         }, 1);
 
-        if (switchToChange) {
-            switchToChange.addEventListener("click", function () {
-                showLoaderAndSwitch(() => {
-                    graficContainer.classList.add("hidden");
-                    changeContainer.classList.remove("hidden");
-                    graficSection.classList.add("hidden");
-                    employeeSection.classList.remove("hidden");
-                });
-            });
+        // 5. Alterna classe ativa entre botões
+        function toggleActiveButton(activeBtn, inactiveBtn) {
+          activeBtn.classList.add("active-button");
+          inactiveBtn.classList.remove("active-button");
         }
 
-        if (switchToGrafic) {
-            switchToGrafic.addEventListener("click", function () {
-                showLoaderAndSwitch(() => {
-                    changeContainer.classList.add("hidden");
-                    graficContainer.classList.remove("hidden");
-                    graficSection.classList.remove("hidden");
-                    employeeSection.classList.add("hidden");
-                });
-            });
+        // 6. Mostra loader, executa callback após tempo
+        function showLoaderAndSwitch(callback) {
+          loader.classList.remove("hidden");
+          setTimeout(() => {
+            callback();
+            loader.classList.add("hidden");
+          }, 2000);
         }
-    });
+
+        // 7. Evento: trocar para "Control"
+        if (switchToChange) {
+          switchToChange.addEventListener("click", function () {
+            toggleActiveButton(switchToChange, switchToGrafic);
+            showLoaderAndSwitch(() => {
+              graficSection.classList.add("hidden");
+              employeeSection.classList.remove("hidden");
+            });
+          });
+        }
+
+        // 8. Evento: trocar para "Grafic"
+        if (switchToGrafic) {
+          switchToGrafic.addEventListener("click", function () {
+            toggleActiveButton(switchToGrafic, switchToChange);
+            showLoaderAndSwitch(() => {
+              employeeSection.classList.add("hidden");
+              graficSection.classList.remove("hidden");
+            });
+          });
+        }
+      });
 
     function openModal(button) {
         const row = button.closest("tr");

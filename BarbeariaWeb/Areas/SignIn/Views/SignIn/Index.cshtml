@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="controle.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet" />
+          <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+        * {
+            padding: 0;
+            margin: 0;
+            scroll-behavior: smooth;
+            font-family: "Poppins", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+        }
+
+        .login-body {
+            background-color: #f0efee;
+        }
+
+        /* LOGIN */
+
+        .login-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fcfcfc;
+            height: 100px;
+            padding: 0 20px;
+        }
+
+            .login-header > a > img {
+                width: 90px;
+            }
+
+            .login-header > a {
+                width: 90px;
+                cursor: pointer;
+            }
+
+        .login-flag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .login-flag p {
+                font-size: 25px;
+                font-family: "Bebas Neue", serif;
+                font-weight: 400;
+            }
+
+        /* ----- */
+
+        .login-main {
+            padding-top: 60px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 80%;
+        }
+
+        .login-text {
+            margin: 0 auto;
+            width: 60%;
+            max-width: 350px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+            .login-text > h2 {
+                font-size: 50px;
+                font-family: "Bebas Neue", serif;
+            }
+
+            .login-text > h3 {
+                text-align: right;
+                font-size: 25px;
+                font-family: "Bebas Neue", serif;
+            }
+        /* ----- */
+
+        .form-login {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 300px;
+            margin: 60px auto 0 auto;
+        }
+
+            .form-login .input-span {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-login > p {
+                margin: -10px 0;
+                padding: 0;
+                width: 100%;
+                font-size: 14px;
+                text-align: right;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+            .form-login input[type="email"],
+            .form-login input[type="password"] {
+                border-radius: 10px;
+                padding: 20px 0;
+                text-indent: 20px;
+                font-family: Arial, Helvetica, sans-serif;
+                width: 100%;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                background-color: white;
+                box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.055);
+            }
+
+                .form-login input[type="email"]:focus,
+                .form-login input[type="password"]:focus {
+                    outline: 1px solid black;
+                }
+
+        .label-login {
+            align-self: flex-start;
+            color: black;
+            font-weight: 600;
+        }
+
+        .form-login .submit-login {
+            padding: 20px 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 3rem;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 300ms;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+            .form-login .submit-login:hover {
+                background-color: #707070;
+            }
+
+        .login-call {
+            padding-top: 40px;
+        }
+
+            .login-call > h2 {
+                font-size: 20px;
+                font-weight: 400;
+            }
+
+        /* -- */
+
+        .pf-wrapper {
+            display: inline-flex;
+            list-style: none;
+            height: 120px;
+            width: 100%;
+            padding-top: 40px;
+            font-family: "Poppins", sans-serif;
+            justify-content: center;
+        }
+
+            .pf-wrapper .icon > a > img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .pf-wrapper .icon {
+                position: relative;
+                background: #fff;
+                border-radius: 50%;
+                margin: 10px;
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+            .pf-wrapper > .icon > a {
+                width: 50px;
+                height: 50px;
+            }
+
+            .pf-wrapper .tooltip {
+                position: absolute;
+                top: 0;
+                font-size: 14px;
+                background: #fff;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 5px;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+                .pf-wrapper .tooltip::before {
+                    position: absolute;
+                    content: "";
+                    height: 8px;
+                    width: 8px;
+                    background: #fff;
+                    bottom: -3px;
+                    left: 50%;
+                    transform: translate(-50%) rotate(45deg);
+                    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                }
+
+            .pf-wrapper .icon:hover .tooltip {
+                top: -45px;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            .pf-wrapper .icon:hover span,
+            .pf-wrapper .icon:hover .tooltip {
+                text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+            }
+
+            .pf-wrapper .email:hover,
+            .pf-wrapper .email:hover .tooltip,
+            .pf-wrapper .email:hover .tooltip::before {
+                background: #cace02;
+                color: #fff;
+            }
+
+            .pf-wrapper .phone:hover,
+            .pf-wrapper .phone:hover .tooltip,
+            .pf-wrapper .phone:hover .tooltip::before {
+                background: #0b9e37;
+                color: #fff;
+            }
+
+        /* LOGIN - FIM */
+
+        .btn-register {
+            text-align: center;
+            text-decoration: none;
+            padding: 0;
+            margin: -10px 0;
+            position: relative;
+            z-index: 9;
+        }
+
+            .btn-register > label {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+        #checkbox {
+            display: none;
+        }
+
+            #checkbox:checked ~ .register-login {
+                display: block;
+            }
+
+        .register-login {
+            display: none;
+            position: absolute;
+            top: 150px;
+            left: 0;
+            height: 80%;
+            width: 100%;
+            background-color: #f0efee;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+    </style>
+</head>
+<body class="login-body">
+    <header class="login-header">
+        <a href="http://www.theuz.eu" target="_blank" rel="noopener noreferrer">
+            <img src="~/imgs/theuz.png" alt="logo" />
+        </a>
+        <div class="login-flag">
+            <p>Agenda</p>
+        </div>
+    </header>
+    <main class="main-log">
+        <section class="login-main">
+            <div class="login-text">
+                <h2>Welcome,</h2>
+                <h3>Log in to continue</h3>
+            </div>
+            <form class="form-login">
+                <span class="input-span">
+                    <label for="email" class="label-login"> Email </label>
+                    <input type="email" name="email" id="email" />
+                </span>
+                <span class="input-span">
+                    <label for="password" class="label-login"> Password </label>
+                    <input type="password" name="password" id="password" />
+                </span>
+
+                <p>Forget password?</p>
+
+                <input class="submit-login" type="submit" value="Log in" />
+
+                <div class="login-call">
+                    <h2>Had any problem?</h2>
+                    <ul class="pf-wrapper">
+                        <li class="icon email">
+                            <span class="tooltip">Email</span>
+                            <a href="mailto:theuz.solutions@gmail.com"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <img src="~/imgs/email.png" alt="Email" />
+                            </a>
+                        </li>
+                        <li class="icon phone">
+                            <span class="tooltip">Phone</span>
+                            <a href="https://wa.me/+351912371044"
+                               target="_blank"
+                               rel="noreferrer">
+                                <img src="~/imgs/phone.png" alt="Phone" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </section>
+        <div class="register">
+            <input type="checkbox" name="" id="checkbox" />
+            <p class="btn-register">
+                Don't have an account? <label for="checkbox">Sign up</label>
+            </p>
+
+            <div class="register-login">
+                <div class="login-text">
+                    <h2>Register</h2>
+                    <h3>To continue</h3>
+                </div>
+                <form class="form-login">
+                    <span class="input-span">
+                        <label for="email" class="label-login"> Email </label>
+                        <input type="email" name="email" id="email" />
+                    </span>
+                    <span class="input-span">
+                        <label for="password" class="label-login"> Password </label>
+                        <input type="password" name="password" id="password" />
+                    </span>
+                    <span class="input-span">
+                        <label for="password" class="label-login">
+                            Confirm Password
+                        </label>
+                        <input type="password" name="password" id="password" />
+                    </span>
+
+                    <input class="submit-login" type="submit" value="Sign up" />
+                </form>
+            </div>
+        </div>
+
+        <!-- <section class="forget-login">
+          <div class="login-text">
+            <h2>Register</h2>
+            <h3>To continue</h3>
+          </div>
+          <form class="form-login">
+            <span class="input-span">
+              <label for="email" class="label-login"> Email </label>
+              <input type="email" name="email" id="email" />
+            </span>
+            <span class="input-span">
+              <label for="password" class="label-login"> Password </label>
+              <input type="password" name="password" id="password" />
+            </span>
+            <span class="input-span">
+              <label for="password" class="label-login"> Confirm Password </label>
+              <input type="password" name="password" id="password" />
+            </span>
+
+            <input class="submit-login" type="submit" value="Register" />
+          </form>
+        </section> -->
+    </main>
+</body>
+</html>
+

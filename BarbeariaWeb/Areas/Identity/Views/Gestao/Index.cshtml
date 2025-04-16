@@ -1,4 +1,4 @@
-﻿@model BarbeariaWeb.Areas.Identity.Models.UsuariosModel
+﻿@model BarbeariaWeb.Areas.Identity.Models.GestaoModel
 
 <style>
     @@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
@@ -370,12 +370,12 @@
     /* Botões superiores */
 
     /* .botoes{
-                                                                                                width: 100%;
-                                                                                                display: inline-flex;
-                                                                                                justify-content: center;
-                                                                                                align-items: center;
-                                                                                                gap: 20px;
-                                                                                            } */
+                                                                                                    width: 100%;
+                                                                                                    display: inline-flex;
+                                                                                                    justify-content: center;
+                                                                                                    align-items: center;
+                                                                                                    gap: 20px;
+                                                                                                } */
 
     .btn {
         width: 130px;
@@ -392,9 +392,9 @@
     }
 
     /* .btn-secondary {
-                                                                                                background-color: #6c757d;
-                                                                                                color: white;
-                                                                                            } */
+                                                                                                    background-color: #6c757d;
+                                                                                                    color: white;
+                                                                                                } */
 
     /* --- */
 
@@ -740,356 +740,360 @@
             <p>User name</p>
         </div>
     </header>
-    <main class="user-main">
-        <section class="switch">
-            <div id="graficContainer">
-                <h2>Grafic OverView</h2>
-                <button id="switchToChange">Switch to Change</button>
-            </div>
+    <div class="container-fluid mt-5 mr-5 ml-5">
+        <div class="tab-content card border border-secondary p-5 mr-5 ml-5">
+            <main class="user-main">
+                <section class="switch">
+                    <div id="graficContainer">
+                        <h2>Grafic OverView</h2>
+                        <button id="switchToChange">Switch to Change</button>
+                    </div>
 
-            <div id="changeContainer" class="hidden">
-                <h2>Change Infos</h2>
-                <button id="switchToGrafic">Switch to Grafic</button>
-            </div>
-        </section>
+                    <div id="changeContainer" class="hidden">
+                        <h2>Change Infos</h2>
+                        <button id="switchToGrafic">Switch to Grafic</button>
+                    </div>
+                </section>
 
-        <!-- Loader Container -->
-        <div id="loaderContainer" class="loader-wrapper">
-            <div class="loader">
-                <svg viewBox="0 0 80 80">
-                    <circle r="32" cy="40" cx="40"></circle>
-                </svg>
-            </div>
+                <!-- Loader Container -->
+                <div id="loaderContainer" class="loader-wrapper">
+                    <div class="loader">
+                        <svg viewBox="0 0 80 80">
+                            <circle r="32" cy="40" cx="40"></circle>
+                        </svg>
+                    </div>
 
-            <div class="loader triangle">
-                <svg viewBox="0 0 86 80">
-                    <polygon points="43 8 79 72 7 72"></polygon>
-                </svg>
-            </div>
+                    <div class="loader triangle">
+                        <svg viewBox="0 0 86 80">
+                            <polygon points="43 8 79 72 7 72"></polygon>
+                        </svg>
+                    </div>
 
-            <div class="loader">
-                <svg viewBox="0 0 80 80">
-                    <rect height="64" width="64" y="8" x="8"></rect>
-                </svg>
-            </div>
+                    <div class="loader">
+                        <svg viewBox="0 0 80 80">
+                            <rect height="64" width="64" y="8" x="8"></rect>
+                        </svg>
+                    </div>
+                </div>
+
+                <section id="graficSection" class="user-grafic">
+                    <div class="grafic-all">
+                        <img src="https://placehold.co/50x30?text=Grafic" alt="Grafico" />
+                    </div>
+
+                    <div class="grafic-buttons">
+                        <div class="grafic-day">
+                            <button>Day</button>
+                            <button>Month</button>
+                            <button>Year</button>
+                        </div>
+                        <div class="grafic-employe">
+                            <button>01</button>
+                            <button>02</button>
+                            <button>03</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="employeeSection" class="user-employe hidden">
+                    <div class="edit-box">
+                        <div class="edit-font">
+                            <h2>Funcionários</h2>
+                            <button id="addEmployee"><i class="fa-solid fa-user-plus"></i></button>
+                        </div>
+                        <table id="MyTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nome</th>
+                                    <th>Data Inicio</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listUsuarios)
+                                {
+                                    <tr>
+                                        <td>@item.cId</td>
+                                        <td>@item.rNome</td>
+                                        <td>@item.dtInicio</td>
+                                        <td>
+                                            <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="editModal-NC" class="modal-nc">
+                        <div class="modal-content">
+                            <h3>Edit User</h3>
+                            <label>Name:</label>
+                            <input type="text" id="editName" />
+                            <label>Color:</label>
+                            <div id="editColorContainer">
+                                <input type="radio" id="preto" name="color" value="Preto" />
+                                <label for="preto">Preto</label>
+
+                                <input type="radio" id="azul" name="color" value="Azul" />
+                                <label for="azul">Azul</label>
+
+                                <input type="radio" id="roxo" name="color" value="Roxo" />
+                                <label for="roxo">Roxo</label>
+
+                                <input type="radio" id="verde" name="color" value="Verde" />
+                                <label for="verde">Verde</label>
+                            </div>
+
+                            <label>Day-Off</label>
+                            <div id="dayOffContainer">
+                                <input type="checkbox"
+                                       id="segunda"
+                                       name="day-off"
+                                       value="Segunda" />
+                                <label for="segunda">Segunda</label>
+
+                                <input type="checkbox" id="terca" name="day-off" value="Terça" />
+                                <label for="terca">Terça</label>
+
+                                <input type="checkbox"
+                                       id="quarta"
+                                       name="day-off"
+                                       value="Quarta" />
+                                <label for="quarta">Quarta</label>
+
+                                <input type="checkbox"
+                                       id="quinta"
+                                       name="day-off"
+                                       value="Quinta" />
+                                <label for="quinta">Quinta</label>
+
+                                <input type="checkbox" id="sexta" name="day-off" value="Sexta" />
+                                <label for="sexta">Sexta</label>
+
+                                <input type="checkbox"
+                                       id="sabado"
+                                       name="day-off"
+                                       value="Sábado" />
+                                <label for="sabado">Sábado</label>
+
+                                <input type="checkbox"
+                                       id="domingo"
+                                       name="day-off"
+                                       value="Domingo" />
+                                <label for="domingo">Domingo</label>
+                            </div>
+
+                            <div class="hour-select">
+                                <label>Entrada:</label>
+                                <select id="editEntrada"></select>
+                                <label>Saída:</label>
+                                <select id="editSaida"></select>
+                            </div>
+                            <div class="hour-select">
+                                <label>Almoço:</label>
+                                <select id="editAlmoco"></select>
+                                <label>Volta:</label>
+                                <select id="editVolta"></select>
+                            </div>
+                            <div class="button-modal">
+                                <button class="btn btn-primary"
+                                        onclick="closeModal('editModal-NC')">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-ep">
+                        <div class="modal-content">
+                            <h3>Create User</h3>
+                            <label>Name:</label>
+                            <input type="text" id="createUserName" />
+
+                            <label>Color:</label>
+                            <div id="createColorContainer">
+                                <!-- Mudança de ID -->
+                                <input type="radio" id="create-preto" name="create-color" value="Preto" />
+                                <label for="create-preto">Preto</label>
+
+                                <input type="radio" id="create-azul" name="create-color" value="Azul" />
+                                <label for="create-azul">Azul</label>
+
+                                <input type="radio" id="create-roxo" name="create-color" value="Roxo" />
+                                <label for="create-roxo">Roxo</label>
+
+                                <input type="radio" id="create-verde" name="create-color" value="Verde" />
+                                <label for="create-verde">Verde</label>
+                            </div>
+
+                            <label>Day-Off</label>
+                            <div id="createDayOffContainer">
+                                <!-- Mudança de ID -->
+                                <input type="checkbox" id="create-segunda" name="create-day-off" value="Segunda" />
+                                <label for="create-segunda">Segunda</label>
+
+                                <input type="checkbox" id="create-terca" name="create-day-off" value="Terça" />
+                                <label for="create-terca">Terça</label>
+
+                                <input type="checkbox" id="create-quarta" name="create-day-off" value="Quarta" />
+                                <label for="create-quarta">Quarta</label>
+
+                                <input type="checkbox" id="create-quinta" name="create-day-off" value="Quinta" />
+                                <label for="create-quinta">Quinta</label>
+
+                                <input type="checkbox" id="create-sexta" name="create-day-off" value="Sexta" />
+                                <label for="create-sexta">Sexta</label>
+
+                                <input type="checkbox" id="create-sabado" name="create-day-off" value="Sábado" />
+                                <label for="create-sabado">Sábado</label>
+
+                                <input type="checkbox" id="create-domingo" name="create-day-off" value="Domingo" />
+                                <label for="create-domingo">Domingo</label>
+                            </div>
+
+                            <div class="button-modal">
+                                <button class="btn btn-primary" id="create-nc">Create</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--  -->
+
+                    <div class="edit-box">
+                        <div class="edit-font">
+                            <h2>Produto e Hora</h2>
+                            <button id="addProduct"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+
+                        <table class="table-nc" data-modal="PH">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Hour</th>
+                                    <th>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Produto01</td>
+                                    <td>30min</td>
+                                    <td class="actions">
+                                        <button class="edit" onclick="openModal(this)">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Produto02</td>
+                                    <td>1h</td>
+                                    <td class="actions">
+                                        <button class="edit" onclick="openModal(this)">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Produto03</td>
+                                    <td>2h</td>
+                                    <td class="actions">
+                                        <button class="edit" onclick="openModal(this)">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Produto04</td>
+                                    <td>15min</td>
+                                    <td class="actions">
+                                        <button class="edit" onclick="openModal(this)">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- <div class="botoes">
+                          <button class="btn btn-primary">Salvar</button>
+                          <button class="btn btn-secondary">Cancelar</button>
+                        </div> -->
+                    </div>
+                    <!--  -->
+                    <div id="editModal-PH" class="modal-nc">
+                        <div class="modal-content">
+                            <h3>Edit User</h3>
+                            <label>Product:</label>
+                            <input type="text" id="editName" />
+                            <label>Hour:</label>
+                            <select name="" id="">
+                                <option value="15min">15min</option>
+                                <option value="30min">30min</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                            </select>
+                            <div class="button-modal">
+                                <button class="btn btn-primary"
+                                        onclick="closeModal('editModal-PH')">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-ph">
+                        <div class="modal-content">
+                            <h3>Add Product and Hour</h3>
+                            <label>Product:</label>
+                            <input type="text" id="editName" />
+                            <label>Hour:</label>
+                            <select name="" id="">
+                                <option value="15min">15min</option>
+                                <option value="30min">30min</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                            </select>
+                            <div class="button-modal">
+                                <button class="btn btn-primary"
+                                        onclick="closeModal('editModal-PH')" id="create-ph">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer class="user-footer">
+                <div class="footer-max">
+
+
+                    <h2>Had any Problem?</h2>
+                    <h3>Contact Us</h3>
+                    <ul class="pf-wrapper">
+                        <li class="icon email">
+                            <span class="tooltip">Email</span>
+                            <a href="mailto:theuz.solutions@gmail.com"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <img src="./img/email.png" alt="Email" />
+                            </a>
+                        </li>
+                        <li class="icon phone">
+                            <span class="tooltip">Phone</span>
+                            <a href="https://wa.me/+351912371044"
+                               target="_blank"
+                               rel="noreferrer">
+                                <img src="./img/phone.png" alt="Phone" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
         </div>
-
-        <section id="graficSection" class="user-grafic">
-            <div class="grafic-all">
-                <img src="https://placehold.co/50x30?text=Grafic" alt="Grafico" />
-            </div>
-
-            <div class="grafic-buttons">
-                <div class="grafic-day">
-                    <button>Day</button>
-                    <button>Month</button>
-                    <button>Year</button>
-                </div>
-                <div class="grafic-employe">
-                    <button>01</button>
-                    <button>02</button>
-                    <button>03</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="employeeSection" class="user-employe hidden">
-            <div class="edit-box">
-                <div class="edit-font">
-                    <h2>Funcionários</h2>
-                    <button id="addEmployee"><i class="fa-solid fa-user-plus"></i></button>
-                </div>
-                <table id="MyTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Nome</th>
-                            <th>Data Inicio</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.listUsuarios)
-                        {
-                            <tr>
-                                <td>@item.cId</td>
-                                <td>@item.rNome</td>
-                                <td>@item.dtInicio</td>
-                                <td>
-                                    <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div id="editModal-NC" class="modal-nc">
-                <div class="modal-content">
-                    <h3>Edit User</h3>
-                    <label>Name:</label>
-                    <input type="text" id="editName" />
-                    <label>Color:</label>
-                    <div id="editColorContainer">
-                        <input type="radio" id="preto" name="color" value="Preto" />
-                        <label for="preto">Preto</label>
-
-                        <input type="radio" id="azul" name="color" value="Azul" />
-                        <label for="azul">Azul</label>
-
-                        <input type="radio" id="roxo" name="color" value="Roxo" />
-                        <label for="roxo">Roxo</label>
-
-                        <input type="radio" id="verde" name="color" value="Verde" />
-                        <label for="verde">Verde</label>
-                    </div>
-
-                    <label>Day-Off</label>
-                    <div id="dayOffContainer">
-                        <input type="checkbox"
-                               id="segunda"
-                               name="day-off"
-                               value="Segunda" />
-                        <label for="segunda">Segunda</label>
-
-                        <input type="checkbox" id="terca" name="day-off" value="Terça" />
-                        <label for="terca">Terça</label>
-
-                        <input type="checkbox"
-                               id="quarta"
-                               name="day-off"
-                               value="Quarta" />
-                        <label for="quarta">Quarta</label>
-
-                        <input type="checkbox"
-                               id="quinta"
-                               name="day-off"
-                               value="Quinta" />
-                        <label for="quinta">Quinta</label>
-
-                        <input type="checkbox" id="sexta" name="day-off" value="Sexta" />
-                        <label for="sexta">Sexta</label>
-
-                        <input type="checkbox"
-                               id="sabado"
-                               name="day-off"
-                               value="Sábado" />
-                        <label for="sabado">Sábado</label>
-
-                        <input type="checkbox"
-                               id="domingo"
-                               name="day-off"
-                               value="Domingo" />
-                        <label for="domingo">Domingo</label>
-                    </div>
-
-                    <div class="hour-select">
-                        <label>Entrada:</label>
-                        <select id="editEntrada"></select>
-                        <label>Saída:</label>
-                        <select id="editSaida"></select>
-                    </div>
-                    <div class="hour-select">
-                        <label>Almoço:</label>
-                        <select id="editAlmoco"></select>
-                        <label>Volta:</label>
-                        <select id="editVolta"></select>
-                    </div>
-                    <div class="button-modal">
-                        <button class="btn btn-primary"
-                                onclick="closeModal('editModal-NC')">
-                            OK
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="add-ep">
-                <div class="modal-content">
-                    <h3>Create User</h3>
-                    <label>Name:</label>
-                    <input type="text" id="createUserName" />
-
-                    <label>Color:</label>
-                    <div id="createColorContainer">
-                        <!-- Mudança de ID -->
-                        <input type="radio" id="create-preto" name="create-color" value="Preto" />
-                        <label for="create-preto">Preto</label>
-
-                        <input type="radio" id="create-azul" name="create-color" value="Azul" />
-                        <label for="create-azul">Azul</label>
-
-                        <input type="radio" id="create-roxo" name="create-color" value="Roxo" />
-                        <label for="create-roxo">Roxo</label>
-
-                        <input type="radio" id="create-verde" name="create-color" value="Verde" />
-                        <label for="create-verde">Verde</label>
-                    </div>
-
-                    <label>Day-Off</label>
-                    <div id="createDayOffContainer">
-                        <!-- Mudança de ID -->
-                        <input type="checkbox" id="create-segunda" name="create-day-off" value="Segunda" />
-                        <label for="create-segunda">Segunda</label>
-
-                        <input type="checkbox" id="create-terca" name="create-day-off" value="Terça" />
-                        <label for="create-terca">Terça</label>
-
-                        <input type="checkbox" id="create-quarta" name="create-day-off" value="Quarta" />
-                        <label for="create-quarta">Quarta</label>
-
-                        <input type="checkbox" id="create-quinta" name="create-day-off" value="Quinta" />
-                        <label for="create-quinta">Quinta</label>
-
-                        <input type="checkbox" id="create-sexta" name="create-day-off" value="Sexta" />
-                        <label for="create-sexta">Sexta</label>
-
-                        <input type="checkbox" id="create-sabado" name="create-day-off" value="Sábado" />
-                        <label for="create-sabado">Sábado</label>
-
-                        <input type="checkbox" id="create-domingo" name="create-day-off" value="Domingo" />
-                        <label for="create-domingo">Domingo</label>
-                    </div>
-
-                    <div class="button-modal">
-                        <button class="btn btn-primary" id="create-nc">Create</button>
-                    </div>
-                </div>
-            </div>
-
-
-            <!--  -->
-
-            <div class="edit-box">
-                <div class="edit-font">
-                    <h2>Produto e Hora</h2>
-                    <button id="addProduct"><i class="fa-solid fa-plus"></i></button>
-                </div>
-
-                <table class="table-nc" data-modal="PH">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Hour</th>
-                            <th>Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Produto01</td>
-                            <td>30min</td>
-                            <td class="actions">
-                                <button class="edit" onclick="openModal(this)">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="delete"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Produto02</td>
-                            <td>1h</td>
-                            <td class="actions">
-                                <button class="edit" onclick="openModal(this)">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="delete"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Produto03</td>
-                            <td>2h</td>
-                            <td class="actions">
-                                <button class="edit" onclick="openModal(this)">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="delete"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Produto04</td>
-                            <td>15min</td>
-                            <td class="actions">
-                                <button class="edit" onclick="openModal(this)">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="delete"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- <div class="botoes">
-                  <button class="btn btn-primary">Salvar</button>
-                  <button class="btn btn-secondary">Cancelar</button>
-                </div> -->
-            </div>
-            <!--  -->
-            <div id="editModal-PH" class="modal-nc">
-                <div class="modal-content">
-                    <h3>Edit User</h3>
-                    <label>Product:</label>
-                    <input type="text" id="editName" />
-                    <label>Hour:</label>
-                    <select name="" id="">
-                        <option value="15min">15min</option>
-                        <option value="30min">30min</option>
-                        <option value="1h">1h</option>
-                        <option value="2h">2h</option>
-                    </select>
-                    <div class="button-modal">
-                        <button class="btn btn-primary"
-                                onclick="closeModal('editModal-PH')">
-                            OK
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="add-ph">
-                <div class="modal-content">
-                    <h3>Add Product and Hour</h3>
-                    <label>Product:</label>
-                    <input type="text" id="editName" />
-                    <label>Hour:</label>
-                    <select name="" id="">
-                        <option value="15min">15min</option>
-                        <option value="30min">30min</option>
-                        <option value="1h">1h</option>
-                        <option value="2h">2h</option>
-                    </select>
-                    <div class="button-modal">
-                        <button class="btn btn-primary"
-                                onclick="closeModal('editModal-PH')" id="create-ph">
-                            Create
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer class="user-footer">
-        <div class="footer-max">
-
-
-            <h2>Had any Problem?</h2>
-            <h3>Contact Us</h3>
-            <ul class="pf-wrapper">
-                <li class="icon email">
-                    <span class="tooltip">Email</span>
-                    <a href="mailto:theuz.solutions@gmail.com"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        <img src="./img/email.png" alt="Email" />
-                    </a>
-                </li>
-                <li class="icon phone">
-                    <span class="tooltip">Phone</span>
-                    <a href="https://wa.me/+351912371044"
-                       target="_blank"
-                       rel="noreferrer">
-                        <img src="./img/phone.png" alt="Phone" />
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </footer>
+    </div>
 </body>
 </html>
 

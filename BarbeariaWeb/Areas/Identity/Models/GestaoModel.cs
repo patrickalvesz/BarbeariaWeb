@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 namespace BarbeariaWeb.Areas.Identity.Models
 {
-    public class UsuariosModel
+    public class GestaoModel
     {
-        public List<UsuariosModel> listUsuarios { get; set; }
+        public List<GestaoModel> listUsuarios { get; set; }
         public int cId { get; set; }
         public int cIdLoja { get; set; }
         public string rNome { get; set; }
@@ -21,15 +21,15 @@ namespace BarbeariaWeb.Areas.Identity.Models
 
         private static readonly string connectionString = "Server=tcp:osfedido.database.windows.net,1433;Initial Catalog=BD_Barbearia;Persist Security Info=False;User ID=dev;Password=0105Goncalves;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public static List<UsuariosModel> tUsuarios_GET()
+        public static List<GestaoModel> tUsuarios_GET()
         {
-            List<UsuariosModel> listUsuarios = new();
+            List<GestaoModel> listUsuarios = new();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    listUsuarios = conn.Query<UsuariosModel>("pAgendamentos_GET", commandType: CommandType.StoredProcedure).ToList();
+                    listUsuarios = conn.Query<GestaoModel>("pAgendamentos_GET", commandType: CommandType.StoredProcedure).ToList();
                 }
 
                 return listUsuarios;

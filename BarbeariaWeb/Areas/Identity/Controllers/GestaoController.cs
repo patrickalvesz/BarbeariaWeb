@@ -4,12 +4,12 @@ using BarbeariaWeb.Areas.Identity.Models;
 namespace BarbeariaWeb.Areas.Identity.Controllers
 {
     [Area("Identity")]
-    public class RegisterController : Controller
+    public class GestaoController : Controller
     {
         public IActionResult Index()
         {
-            UsuariosModel model = new();
-            model.listUsuarios = UsuariosModel.tUsuarios_GET();
+            GestaoModel model = new();
+            model.listUsuarios = GestaoModel.tUsuarios_GET();
             return View(model);
         }
     }

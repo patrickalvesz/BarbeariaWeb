@@ -86,18 +86,17 @@
     }
 
     @@keyframes appear {
-        from{
-        translate: 0 -100vh;
-    }
+        from {
+            translate: 0 -100vh;
+        }
 
-    to {
-        position: fixed;
-        top: 0;
-        left: 0;
-        translate: 0 0;
-        z-index: 9999;
-    }
-
+        to {
+            position: fixed;
+            top: 0;
+            left: 0;
+            translate: 0 0;
+            z-index: 9999;
+        }
     }
 
     .title {
@@ -372,12 +371,12 @@
     /* Botões superiores */
 
     /* .botoes{
-                                                                                                    width: 100%;
-                                                                                                    display: inline-flex;
-                                                                                                    justify-content: center;
-                                                                                                    align-items: center;
-                                                                                                    gap: 20px;
-                                                                                                } */
+                                                                                                                                    width: 100%;
+                                                                                                                                    display: inline-flex;
+                                                                                                                                    justify-content: center;
+                                                                                                                                    align-items: center;
+                                                                                                                                    gap: 20px;
+                                                                                                                                } */
 
     .btn {
         width: 130px;
@@ -394,9 +393,9 @@
     }
 
     /* .btn-secondary {
-                                                                                                    background-color: #6c757d;
-                                                                                                    color: white;
-                                                                                                } */
+                                                                                                                                    background-color: #6c757d;
+                                                                                                                                    color: white;
+                                                                                                                                } */
 
     /* --- */
 
@@ -660,7 +659,7 @@
     /* --- */
 
     @@media screen and (max-width: 650px) {
-        
+
         .not-imp {
             display: none;
         }
@@ -695,6 +694,7 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/lib/fontawesome/all.min.css" />
 <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+<link rel="stylesheet" href="~/lib/select2/select2.min.css" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -725,26 +725,26 @@
             </div>
         </section>
 
-                <!-- Loader Container -->
-                <div id="loaderContainer" class="loader-wrapper">
-                    <div class="loader">
-                        <svg viewBox="0 0 80 80">
-                            <circle r="32" cy="40" cx="40"></circle>
-                        </svg>
-                    </div>
+        <!-- Loader Container -->
+        <div id="loaderContainer" class="loader-wrapper">
+            <div class="loader">
+                <svg viewBox="0 0 80 80">
+                    <circle r="32" cy="40" cx="40"></circle>
+                </svg>
+            </div>
 
-                    <div class="loader triangle">
-                        <svg viewBox="0 0 86 80">
-                            <polygon points="43 8 79 72 7 72"></polygon>
-                        </svg>
-                    </div>
+            <div class="loader triangle">
+                <svg viewBox="0 0 86 80">
+                    <polygon points="43 8 79 72 7 72"></polygon>
+                </svg>
+            </div>
 
-                    <div class="loader">
-                        <svg viewBox="0 0 80 80">
-                            <rect height="64" width="64" y="8" x="8"></rect>
-                        </svg>
-                    </div>
-                </div>
+            <div class="loader">
+                <svg viewBox="0 0 80 80">
+                    <rect height="64" width="64" y="8" x="8"></rect>
+                </svg>
+            </div>
+        </div>
 
         <section id="graficSection" class="user-grafic">
             <h2 class="title">Grafic OverView</h2>
@@ -752,19 +752,19 @@
                 <img src="https://placehold.co/50x30?text=Grafic" alt="Grafico" />
             </div>
 
-                    <div class="grafic-buttons">
-                        <div class="grafic-day">
-                            <button>Day</button>
-                            <button>Month</button>
-                            <button>Year</button>
-                        </div>
-                        <div class="grafic-employe">
-                            <button>01</button>
-                            <button>02</button>
-                            <button>03</button>
-                        </div>
-                    </div>
-                </section>
+            <div class="grafic-buttons">
+                <div class="grafic-day">
+                    <button>Day</button>
+                    <button>Month</button>
+                    <button>Year</button>
+                </div>
+                <div class="grafic-employe">
+                    <button>01</button>
+                    <button>02</button>
+                    <button>03</button>
+                </div>
+            </div>
+        </section>
 
         <section id="employeeSection" class="user-employe hidden">
             <h2 class="title">Change Infos</h2>
@@ -773,29 +773,32 @@
                     <h2>Funcionários</h2>
                     <button id="addEmployee"><i class="fa-solid fa-user-plus"></i></button>
                 </div>
-                <table id="MyTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Nome</th>
-                            <th>Data Inicio</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.listUsuarios)
-                        {
+                <div class="table-responsive">
+                    <table id="MyTable" class="table table-bordered table-striped table-hover datatable">
+                        <thead class="thead-dark">
                             <tr>
-                                <td>@item.cId</td>
-                                <td>@item.rNome</td>
-                                <td>@item.dtInicio</td>
-                                <td>
-                                    <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
-                                </td>
+                                <th>Id</th>
+                                <th>Nome</th>
+                                <th>Data Início</th>
+                                <th>Ação</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AgendamentosModel.agendamentosList)
+                            {
+                                <tr>
+                                    <td>@item.cId</td>
+                                    <td>@item.rNome</td>
+                                    <td>@item.dtInicio</td>
+                                    <td>
+                                        <i class="fas fa-trash text-danger" style="cursor: pointer;" onclick="confirmarExclusao()"></i>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
             <div id="editModal-NC" class="modal-nc">
                 <div class="modal-content">
@@ -807,264 +810,232 @@
                         <input type="radio" id="preto" name="color" value="Preto" />
                         <label for="preto">Preto</label>
 
-                                <input type="radio" id="azul" name="color" value="Azul" />
-                                <label for="azul">Azul</label>
+                        <input type="radio" id="azul" name="color" value="Azul" />
+                        <label for="azul">Azul</label>
 
-                                <input type="radio" id="roxo" name="color" value="Roxo" />
-                                <label for="roxo">Roxo</label>
+                        <input type="radio" id="roxo" name="color" value="Roxo" />
+                        <label for="roxo">Roxo</label>
 
-                                <input type="radio" id="verde" name="color" value="Verde" />
-                                <label for="verde">Verde</label>
-                            </div>
-
-                            <label>Day-Off</label>
-                            <div id="dayOffContainer">
-                                <input type="checkbox"
-                                       id="segunda"
-                                       name="day-off"
-                                       value="Segunda" />
-                                <label for="segunda">Segunda</label>
-
-                                <input type="checkbox" id="terca" name="day-off" value="Terça" />
-                                <label for="terca">Terça</label>
-
-                                <input type="checkbox"
-                                       id="quarta"
-                                       name="day-off"
-                                       value="Quarta" />
-                                <label for="quarta">Quarta</label>
-
-                                <input type="checkbox"
-                                       id="quinta"
-                                       name="day-off"
-                                       value="Quinta" />
-                                <label for="quinta">Quinta</label>
-
-                                <input type="checkbox" id="sexta" name="day-off" value="Sexta" />
-                                <label for="sexta">Sexta</label>
-
-                                <input type="checkbox"
-                                       id="sabado"
-                                       name="day-off"
-                                       value="Sábado" />
-                                <label for="sabado">Sábado</label>
-
-                                <input type="checkbox"
-                                       id="domingo"
-                                       name="day-off"
-                                       value="Domingo" />
-                                <label for="domingo">Domingo</label>
-                            </div>
-
-                            <div class="hour-select">
-                                <label>Entrada:</label>
-                                <select id="editEntrada"></select>
-                                <label>Saída:</label>
-                                <select id="editSaida"></select>
-                            </div>
-                            <div class="hour-select">
-                                <label>Almoço:</label>
-                                <select id="editAlmoco"></select>
-                                <label>Volta:</label>
-                                <select id="editVolta"></select>
-                            </div>
-                            <div class="button-modal">
-                                <button class="btn btn-primary"
-                                        onclick="closeModal('editModal-NC')">
-                                    OK
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="add-ep">
-                        <div class="modal-content">
-                            <h3>Create User</h3>
-                            <label>Name:</label>
-                            <input type="text" id="createUserName" />
-
-                            <label>Color:</label>
-                            <div id="createColorContainer">
-                                <!-- Mudança de ID -->
-                                <input type="radio" id="create-preto" name="create-color" value="Preto" />
-                                <label for="create-preto">Preto</label>
-
-                                <input type="radio" id="create-azul" name="create-color" value="Azul" />
-                                <label for="create-azul">Azul</label>
-
-                                <input type="radio" id="create-roxo" name="create-color" value="Roxo" />
-                                <label for="create-roxo">Roxo</label>
-
-                                <input type="radio" id="create-verde" name="create-color" value="Verde" />
-                                <label for="create-verde">Verde</label>
-                            </div>
-
-                            <label>Day-Off</label>
-                            <div id="createDayOffContainer">
-                                <!-- Mudança de ID -->
-                                <input type="checkbox" id="create-segunda" name="create-day-off" value="Segunda" />
-                                <label for="create-segunda">Segunda</label>
-
-                                <input type="checkbox" id="create-terca" name="create-day-off" value="Terça" />
-                                <label for="create-terca">Terça</label>
-
-                                <input type="checkbox" id="create-quarta" name="create-day-off" value="Quarta" />
-                                <label for="create-quarta">Quarta</label>
-
-                                <input type="checkbox" id="create-quinta" name="create-day-off" value="Quinta" />
-                                <label for="create-quinta">Quinta</label>
-
-                                <input type="checkbox" id="create-sexta" name="create-day-off" value="Sexta" />
-                                <label for="create-sexta">Sexta</label>
-
-                                <input type="checkbox" id="create-sabado" name="create-day-off" value="Sábado" />
-                                <label for="create-sabado">Sábado</label>
-
-                                <input type="checkbox" id="create-domingo" name="create-day-off" value="Domingo" />
-                                <label for="create-domingo">Domingo</label>
-                            </div>
-
-                            <div class="button-modal">
-                                <button class="btn btn-primary" id="create-nc">Create</button>
-                            </div>
-                        </div>
+                        <input type="radio" id="verde" name="color" value="Verde" />
+                        <label for="verde">Verde</label>
                     </div>
 
+                    <label>Day-Off</label>
+                    <div id="dayOffContainer">
+                        <input type="checkbox"
+                               id="segunda"
+                               name="day-off"
+                               value="Segunda" />
+                        <label for="segunda">Segunda</label>
 
-                    <!--  -->
+                        <input type="checkbox" id="terca" name="day-off" value="Terça" />
+                        <label for="terca">Terça</label>
 
-                    <div class="edit-box">
-                        <div class="edit-font">
-                            <h2>Produto e Hora</h2>
-                            <button id="addProduct"><i class="fa-solid fa-plus"></i></button>
-                        </div>
+                        <input type="checkbox"
+                               id="quarta"
+                               name="day-off"
+                               value="Quarta" />
+                        <label for="quarta">Quarta</label>
 
-                        <table class="table-nc" data-modal="PH">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Hour</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Produto01</td>
-                                    <td>30min</td>
-                                    <td class="actions">
-                                        <button class="edit" onclick="openModal(this)">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="delete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Produto02</td>
-                                    <td>1h</td>
-                                    <td class="actions">
-                                        <button class="edit" onclick="openModal(this)">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="delete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Produto03</td>
-                                    <td>2h</td>
-                                    <td class="actions">
-                                        <button class="edit" onclick="openModal(this)">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="delete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Produto04</td>
-                                    <td>15min</td>
-                                    <td class="actions">
-                                        <button class="edit" onclick="openModal(this)">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="delete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <input type="checkbox"
+                               id="quinta"
+                               name="day-off"
+                               value="Quinta" />
+                        <label for="quinta">Quinta</label>
 
-                        <!-- <div class="botoes">
-                          <button class="btn btn-primary">Salvar</button>
-                          <button class="btn btn-secondary">Cancelar</button>
-                        </div> -->
+                        <input type="checkbox" id="sexta" name="day-off" value="Sexta" />
+                        <label for="sexta">Sexta</label>
+
+                        <input type="checkbox"
+                               id="sabado"
+                               name="day-off"
+                               value="Sábado" />
+                        <label for="sabado">Sábado</label>
+
+                        <input type="checkbox"
+                               id="domingo"
+                               name="day-off"
+                               value="Domingo" />
+                        <label for="domingo">Domingo</label>
                     </div>
-                    <!--  -->
-                    <div id="editModal-PH" class="modal-nc">
-                        <div class="modal-content">
-                            <h3>Edit User</h3>
-                            <label>Product:</label>
-                            <input type="text" id="editName" />
-                            <label>Hour:</label>
-                            <select name="" id="">
-                                <option value="15min">15min</option>
-                                <option value="30min">30min</option>
-                                <option value="1h">1h</option>
-                                <option value="2h">2h</option>
-                            </select>
-                            <div class="button-modal">
-                                <button class="btn btn-primary"
-                                        onclick="closeModal('editModal-PH')">
-                                    OK
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="add-ph">
-                        <div class="modal-content">
-                            <h3>Add Product and Hour</h3>
-                            <label>Product:</label>
-                            <input type="text" id="editName" />
-                            <label>Hour:</label>
-                            <select name="" id="">
-                                <option value="15min">15min</option>
-                                <option value="30min">30min</option>
-                                <option value="1h">1h</option>
-                                <option value="2h">2h</option>
-                            </select>
-                            <div class="button-modal">
-                                <button class="btn btn-primary"
-                                        onclick="closeModal('editModal-PH')" id="create-ph">
-                                    Create
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-            <footer class="user-footer">
-                <div class="footer-max">
 
-
-                    <h2>Had any Problem?</h2>
-                    <h3>Contact Us</h3>
-                    <ul class="pf-wrapper">
-                        <li class="icon email">
-                            <span class="tooltip">Email</span>
-                            <a href="mailto:theuz.solutions@gmail.com"
-                               target="_blank"
-                               rel="noopener noreferrer">
-                        <img src="~/imgs/email.png" alt="Email" />
-                            </a>
-                        </li>
-                        <li class="icon phone">
-                            <span class="tooltip">Phone</span>
-                            <a href="https://wa.me/+351912371044"
-                               target="_blank"
-                               rel="noreferrer">
-                                <img src="~/imgs/phone.png" alt="Phone" />
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="hour-select">
+                        <label>Entrada:</label>
+                        <select id="editEntrada"></select>
+                        <label>Saída:</label>
+                        <select id="editSaida"></select>
+                    </div>
+                    <div class="hour-select">
+                        <label>Almoço:</label>
+                        <select id="editAlmoco"></select>
+                        <label>Volta:</label>
+                        <select id="editVolta"></select>
+                    </div>
+                    <div class="button-modal">
+                        <button class="btn btn-primary"
+                                onclick="closeModal('editModal-NC')">
+                            OK
+                        </button>
+                    </div>
                 </div>
-            </footer>
+            </div>
+            <div class="add-ep">
+                <div class="modal-content">
+                    <h3>Create User</h3>
+                    <label>Name:</label>
+                    <input type="text" id="createUserName" />
+
+                    <label>Color:</label>
+                    <div id="createColorContainer">
+                        <!-- Mudança de ID -->
+                        <input type="radio" id="create-preto" name="create-color" value="Preto" />
+                        <label for="create-preto">Preto</label>
+
+                        <input type="radio" id="create-azul" name="create-color" value="Azul" />
+                        <label for="create-azul">Azul</label>
+
+                        <input type="radio" id="create-roxo" name="create-color" value="Roxo" />
+                        <label for="create-roxo">Roxo</label>
+
+                        <input type="radio" id="create-verde" name="create-color" value="Verde" />
+                        <label for="create-verde">Verde</label>
+                    </div>
+
+                    <label>Day-Off</label>
+                    <div id="createDayOffContainer">
+                        <!-- Mudança de ID -->
+                        <input type="checkbox" id="create-segunda" name="create-day-off" value="Segunda" />
+                        <label for="create-segunda">Segunda</label>
+
+                        <input type="checkbox" id="create-terca" name="create-day-off" value="Terça" />
+                        <label for="create-terca">Terça</label>
+
+                        <input type="checkbox" id="create-quarta" name="create-day-off" value="Quarta" />
+                        <label for="create-quarta">Quarta</label>
+
+                        <input type="checkbox" id="create-quinta" name="create-day-off" value="Quinta" />
+                        <label for="create-quinta">Quinta</label>
+
+                        <input type="checkbox" id="create-sexta" name="create-day-off" value="Sexta" />
+                        <label for="create-sexta">Sexta</label>
+
+                        <input type="checkbox" id="create-sabado" name="create-day-off" value="Sábado" />
+                        <label for="create-sabado">Sábado</label>
+
+                        <input type="checkbox" id="create-domingo" name="create-day-off" value="Domingo" />
+                        <label for="create-domingo">Domingo</label>
+                    </div>
+
+                    <div class="button-modal">
+                        <button class="btn btn-primary" id="create-nc">Create</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--  -->
+
+            <div class="edit-box">
+
+                <div class="edit-font">
+                    <h2>Produto e Hora</h2>
+                    <button id="addProduct"><i class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <div class="form-group text-left">
+                    <label for="cIdBarbeiro" class="form-label font-weight-bold mb-2">
+                        <i class="fa fa-user me-1"></i> Barbeiro
+                    </label>
+                    <div class="select">
+                        @Html.DropDownListFor(x => x.BarbeirosModel.cId, Model.BarbeirosModel.comboBarberios, new { @class = "form-control select2", @id = "cIdBarbeiro" })
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="tabelaEstilos" class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Tipo de Corte</th>
+                                <th>Duração</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!--  -->
+            <div id="editModal-PH" class="modal-nc">
+                <div class="modal-content">
+                    <h3>Edit User</h3>
+                    <label>Product:</label>
+                    <input type="text" id="editName" />
+                    <label>Hour:</label>
+                    <select name="" id="">
+                        <option value="15min">15min</option>
+                        <option value="30min">30min</option>
+                        <option value="1h">1h</option>
+                        <option value="2h">2h</option>
+                    </select>
+                    <div class="button-modal">
+                        <button class="btn btn-primary"
+                                onclick="closeModal('editModal-PH')">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="add-ph">
+                <div class="modal-content">
+                    <h3>Add Product and Hour</h3>
+                    <label>Product:</label>
+                    <input type="text" id="editName" />
+                    <label>Hour:</label>
+                    <select name="" id="">
+                        <option value="15min">15min</option>
+                        <option value="30min">30min</option>
+                        <option value="1h">1h</option>
+                        <option value="2h">2h</option>
+                    </select>
+                    <div class="button-modal">
+                        <button class="btn btn-primary"
+                                onclick="closeModal('editModal-PH')" id="create-ph">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="user-footer">
+        <div class="footer-max">
+
+
+            <h2>Had any Problem?</h2>
+            <h3>Contact Us</h3>
+            <ul class="pf-wrapper">
+                <li class="icon email">
+                    <span class="tooltip">Email</span>
+                    <a href="mailto:theuz.solutions@gmail.com"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <img src="~/imgs/email.png" alt="Email" />
+                    </a>
+                </li>
+                <li class="icon phone">
+                    <span class="tooltip">Phone</span>
+                    <a href="https://wa.me/+351912371044"
+                       target="_blank"
+                       rel="noreferrer">
+                        <img src="~/imgs/phone.png" alt="Phone" />
+                    </a>
+                </li>
+            </ul>
         </div>
+    </footer>
+    </div>
     </div>
 </body>
 </html>
@@ -1073,6 +1044,7 @@
 <script src="~/lib/datatable/datatables.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+<script src="~/lib/select2/select2.min.js"></script>
 
 <script>
 
@@ -1080,7 +1052,7 @@
       const graficSection = document.getElementById("graficSection");
       const employeeSection = document.getElementById("employeeSection");
       // Aplica classe ativa no botão inicial (Grafic)
-      
+
 
     // Função para fechar qualquer modal
     function closeModal(modalId) {
@@ -1156,14 +1128,12 @@
           preencherHorarios();
         }
 
-        // 2. Ativa DataTable (jQuery)
-        if (typeof $ !== "undefined" && $("#MyTable").length) {
           $("#MyTable").DataTable({
+            responsive: true,
             language: {
                url: "@Url.Content("~/lib/datatable/pt-BR.json")"
             },
           });
-        }
 
         // 3. Aplica estilo ativo inicial
         switchToGrafic.classList.add("active-button");
@@ -1185,7 +1155,7 @@
           setTimeout(() => {
             callback();
             loader.classList.add("hidden");
-          }, 2000);
+          }, 2);
         }
 
         // 7. Evento: trocar para "Control"
@@ -1209,6 +1179,13 @@
             });
           });
         }
+
+        $('.select2').select2({
+            width: '100%',
+            allowClear: true,
+            placeholder: "Selecione"
+        });
+
       });
 
     function openModal(button) {
@@ -1249,26 +1226,95 @@
         modal.style.display = "flex";
     }
 
-      function confirmarExclusao() {
-      Swal.fire({
-        title: 'Tem certeza?',
-        text: "Você não poderá reverter isso!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sim, excluir!',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Aqui você coloca o que deve acontecer após a confirmação
-          Swal.fire(
-            'Excluído!',
-            'O item foi removido.',
-            'success'
-          );
+        var tabela = $('#tabelaEstilos').DataTable({
+            language: {
+                url: '@Url.Content("~/lib/datatable/pt-BR.json")'
+            },
+            searching: true,
+            paging: true,
+            info: true
+        });
+
+    $('#cIdBarbeiro').on('change', function () {
+        var id = $(this).val();
+
+        if (id) {
+            $.ajax({
+                url: 'Gestao/ObterCortesBarbeiro',
+                type: 'GET',
+                data: { cIdBarbeiro: id },
+                success: function (data) {
+                    tabela.clear(); // limpa os dados anteriores
+
+                    if (data && data.length > 0) {
+                        let novosDados = data.map(item => [
+                            item.rTipoCorte,
+                            item.cDuracao + " min",
+                            `
+                            <div class="text-center">
+                                <i class="fa fa-edit text-primary mr-2" style="cursor:pointer;" title="Editar"></i>
+                                <i class="fa fa-trash text-danger" style="cursor:pointer;" title="Excluir" onclick="excluirCorte(${item.cId})"></i>
+                            </div>
+                            `
+                        ]);
+
+                        tabela.rows.add(novosDados).draw(); // adiciona e redesenha
+                    } else {
+                        tabela.draw(); // só redesenha a tabela vazia
+                    }
+                }
+            });
+        } else {
+            tabela.clear().draw();
         }
-      });
+    });
+
+        function excluirCorte(corteId) {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Essa ação não poderá ser desfeita!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'Gestao/ExcluirCorteBarbeiro',
+                    type: 'DELETE',
+                    data: { cId: corteId },
+                    success: function (resposta) {
+                        if (resposta) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Excluído!',
+                                text: 'O corte foi excluído com sucesso.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            // Recarrega a tabela automaticamente
+                            $('#cIdBarbeiro').trigger('change');
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: 'Não foi possível excluir o corte.',
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: 'Ocorreu um erro na requisição.',
+                        });
+                    }
+                });
+            }
+        });
     }
 
 </script>

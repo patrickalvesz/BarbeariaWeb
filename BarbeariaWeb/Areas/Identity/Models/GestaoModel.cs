@@ -1,68 +1,84 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
+
 namespace BarbeariaWeb.Areas.Identity.Models
 {
     public class GestaoModel
     {
-        public List<GestaoModel> listUsuarios { get; set; }
-        public int cId { get; set; }
-        public int cIdLoja { get; set; }
-        public string rNome { get; set; }
-        public string cTelefone { get; set; }
-        public string rEmail { get; set; }
-        public int cIdEmpregado { get; set; }
-        public int cProduto { get; set; }
-        public DateTime dtInicio { get; set; }
-        public DateTime dtFim { get; set; }
-        public DateTime dtCriacao { get; set; }
-        public SelectList comboEstadoCivil { get; set; }
+        public AgendamentosModel AgendamentosModel { get; set; }
+        public BarbeirosModel BarbeirosModel { get; set; }
+        public EstiloCorteModel EstiloCorteModel { get; set; }
 
-        private static readonly string connectionString = "Server=tcp:osfedido.database.windows.net,1433;Initial Catalog=BD_Barbearia;Persist Security Info=False;User ID=dev;Password=0105Goncalves;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
-        public static List<GestaoModel> tUsuarios_GET()
+        public GestaoModel()
         {
-            List<GestaoModel> listUsuarios = new();
+            AgendamentosModel = new AgendamentosModel();
+            BarbeirosModel = new BarbeirosModel();
+            EstiloCorteModel = new EstiloCorteModel();
+        }
+
+
+
+        public static List<T> ObterListaGenerica<T>(string connectionString, string procName, Dictionary<string, object> parametros = null)
+        {
+            List<T> resultado = new();
+
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (var conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    listUsuarios = conn.Query<GestaoModel>("pAgendamentos_GET", commandType: CommandType.StoredProcedure).ToList();
-                }
+                    var p = new DynamicParameters();
 
-                return listUsuarios;
+                    if (parametros != null)
+                    {
+                        foreach (var item in parametros)
+                        {
+                            p.Add(item.Key, item.Value);
+                        }
+                    }
+
+                    resultado = conn.Query<T>(procName, p, commandType: CommandType.StoredProcedure).ToList();
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return listUsuarios;
+            }
+
+            return resultado;
+        }
+
+        public static bool ExecutarProcGenerica(string connectionString, string procName, Dictionary<string, object> parametros = null)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    var p = new DynamicParameters();
+
+                    if (parametros != null)
+                    {
+                        foreach (var item in parametros)
+                        {
+                            p.Add(item.Key, item.Value);
+                        }
+                    }
+
+                    conn.Query(procName, p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
+
     }
-    public class ClsCombo
-    {
-        public string cId { get; set; }
-        public string rStr { get; set; }
-        private static readonly string connectionString = "Server=tcp:osfedido.database.windows.net,1433;Initial Catalog=BD_Barbearia;Persist Security Info=False;User ID=dev;Password=0105Goncalves;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public static SelectList tCombo_GET(string operacao)
-        {
-            SelectList ret = null;
-            IEnumerable<ClsCombo> listCombos;
-
-            SqlConnection con = new SqlConnection(connectionString);
-            DynamicParameters p = new DynamicParameters();
-            p.Add("@OPERACAO", operacao);
-            con = new SqlConnection(connectionString);
-
-            listCombos = con.Query<ClsCombo>("pCombo_GET", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
-
-            ret = new SelectList(listCombos, "cId", "rStr");
-
-            return ret;
-        }
-    }
 }

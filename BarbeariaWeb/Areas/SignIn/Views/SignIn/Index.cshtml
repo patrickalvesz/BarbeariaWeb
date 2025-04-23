@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="controle.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
           rel="stylesheet" />
-          <style>
+    <style>
         @@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
         * {
@@ -319,7 +320,7 @@
                 <h2>Welcome,</h2>
                 <h3>Log in to continue</h3>
             </div>
-            <form class="form-login">
+            <form class="form-login" method="post" action="SignIn/AutenticarUsuario">
                 <span class="input-span">
                     <label for="email" class="label-login"> Email </label>
                     <input type="email" name="email" id="email" />
@@ -367,7 +368,7 @@
                     <h2>Register</h2>
                     <h3>To continue</h3>
                 </div>
-                <form class="form-login">
+                <form class="form-login" method="post" action="SignIn/RegistrarUsuario">
                     <span class="input-span">
                         <label for="email" class="label-login"> Email </label>
                         <input type="email" name="email" id="email" />
@@ -388,29 +389,32 @@
             </div>
         </div>
 
-        <!-- <section class="forget-login">
-          <div class="login-text">
-            <h2>Register</h2>
-            <h3>To continue</h3>
-          </div>
-          <form class="form-login">
-            <span class="input-span">
-              <label for="email" class="label-login"> Email </label>
-              <input type="email" name="email" id="email" />
-            </span>
-            <span class="input-span">
-              <label for="password" class="label-login"> Password </label>
-              <input type="password" name="password" id="password" />
-            </span>
-            <span class="input-span">
-              <label for="password" class="label-login"> Confirm Password </label>
-              <input type="password" name="password" id="password" />
-            </span>
-
-            <input class="submit-login" type="submit" value="Register" />
-          </form>
-        </section> -->
     </main>
 </body>
 </html>
 
+<script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+<script>
+    @if (TempData["erro"] != null)
+    {
+        <text>
+                Swal.fire({
+                icon: 'error',
+                        title: 'Oops...',
+                        text: '@TempData["erro"]'
+                    });
+        </text>
+    }
+
+    @if (TempData["success"] != null)
+    {
+        <text>
+                    Swal.fire({
+                    icon: 'success',
+                            title: 'Bem Vindo',
+                                text: '@TempData["success"]'
+                        });
+        </text>
+    }
+
+</script>

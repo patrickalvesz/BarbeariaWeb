@@ -980,13 +980,13 @@
                             <i class="fa fa-user me-1"></i> Barbeiro
                         </label>
                         <div class="select">
-                            @Html.DropDownList("cIdBarbeiro", Model.BarbeirosModel.comboBarberios, new { @class = "form-control select2", @id = "cIdBarbeiroModalAdd", @readonly = "readonly" })
+                            @Html.DropDownList("cIdBarbeiro", Model.BarbeirosModel.comboBarberios, new { @class = "form-control select2", @id = "cIdBarbeiroModalEdit", @readonly = "readonly" })
                         </div>
                     </div>
                     <label>Product:</label>
-                    <input type="text" id="produto" name="produto" class="form-control" />
+                    <input type="text" class="form-control" />
                     <label>Hour:</label>
-                    <input type="number" id="hora" name="hora" class="form-control" />
+                    <input type="number" class="form-control" />
                     <div class="button-modal">
                         <button class="btn btn-primary"
                                 onclick="closeModal('editModal-PH')">
@@ -1247,7 +1247,7 @@
         modal.style.display = "flex";
     }
 
-        var tabela = $('#tabelaEstilos').DataTable({
+    var tabela = $('#tabelaEstilos').DataTable({
             language: {
                 url: '@Url.Content("~/lib/datatable/pt-BR.json")'
             },
@@ -1290,7 +1290,7 @@
         }
     });
 
-        function excluirCorte(corteId) {
+    function excluirCorte(corteId) {
         Swal.fire({
             title: 'Tem certeza?',
             text: "Essa ação não poderá ser desfeita!",
@@ -1343,6 +1343,8 @@
                 produto: $('#produto').val(),
                 hora: $('#hora').val()
             };
+
+            console.log(dados);
 
             $.post('Gestao/InserirCorteBarbeiro', dados, function (resposta) {
                 if (resposta === true) {

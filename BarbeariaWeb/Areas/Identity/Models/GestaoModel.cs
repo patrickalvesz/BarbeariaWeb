@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace BarbeariaWeb.Areas.Identity.Models
@@ -26,7 +26,7 @@ namespace BarbeariaWeb.Areas.Identity.Models
 
             try
             {
-                using (var conn = new SqlConnection(connectionString))
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
                     var p = new DynamicParameters();
@@ -54,7 +54,7 @@ namespace BarbeariaWeb.Areas.Identity.Models
         {
             try
             {
-                using (var conn = new SqlConnection(connectionString))
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
                     var p = new DynamicParameters();

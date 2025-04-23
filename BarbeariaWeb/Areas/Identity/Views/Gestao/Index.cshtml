@@ -285,6 +285,11 @@
 
     /* ----- */
 
+    .prod-hora {
+        width: 100%;
+        margin: 0 auto;
+    }
+
     .edit-box {
         max-width: 800px;
         margin: 0 auto 60px auto;
@@ -942,7 +947,7 @@
                     <button id="addProduct"><i class="fa-solid fa-plus"></i></button>
                 </div>
 
-                <div class="form-group text-left">
+                <div class="form-group text-left prod-hora">
                     <label for="cIdBarbeiro" class="form-label font-weight-bold mb-2">
                         <i class="fa fa-user me-1"></i> Barbeiro
                     </label>
@@ -969,16 +974,19 @@
             <!--  -->
             <div id="editModal-PH" class="modal-nc">
                 <div class="modal-content">
-                    <h3>Edit User</h3>
+                    <h3>Editar Produto e Hora</h3>
+                    <div class="form-group text-left prod-hora">
+                        <label for="cIdBarbeiro" class="form-label font-weight-bold mb-2">
+                            <i class="fa fa-user me-1"></i> Barbeiro
+                        </label>
+                        <div class="select">
+                            @Html.DropDownList("cIdBarbeiro", Model.BarbeirosModel.comboBarberios, new { @class = "form-control select2", @id = "cIdBarbeiroModalAdd", @readonly = "readonly" })
+                        </div>
+                    </div>
                     <label>Product:</label>
-                    <input type="text" id="editName" />
+                    <input type="text" id="produto" name="produto" class="form-control" />
                     <label>Hour:</label>
-                    <select name="" id="">
-                        <option value="15min">15min</option>
-                        <option value="30min">30min</option>
-                        <option value="1h">1h</option>
-                        <option value="2h">2h</option>
-                    </select>
+                    <input type="number" id="hora" name="hora" class="form-control" />
                     <div class="button-modal">
                         <button class="btn btn-primary"
                                 onclick="closeModal('editModal-PH')">
@@ -987,22 +995,31 @@
                     </div>
                 </div>
             </div>
-            <div class="add-ph">
+            <div id="addModal-PH" class="add-ph">
                 <div class="modal-content">
-                    <h3>Add Product and Hour</h3>
-                    <label>Product:</label>
-                    <input type="text" id="editName" />
-                    <label>Hour:</label>
-                    <select name="" id="">
-                        <option value="15min">15min</option>
-                        <option value="30min">30min</option>
-                        <option value="1h">1h</option>
-                        <option value="2h">2h</option>
-                    </select>
-                    <div class="button-modal">
-                        <button class="btn btn-primary"
-                                onclick="closeModal('editModal-PH')" id="create-ph">
+                    <h3>Adicione Produto e Hora</h3>
+
+                    <div class="form-group text-left prod-hora">
+                        <label for="cIdBarbeiro" class="form-label font-weight-bold mb-2">
+                            <i class="fa fa-user me-1"></i> Barbeiro
+                        </label>
+                        <div class="select">
+                            @Html.DropDownList("cIdBarbeiro", Model.BarbeirosModel.comboBarberios, new { @class = "form-control select2", @id = "cIdBarbeiroModalAdd" })
+                        </div>
+                    </div>
+
+                    <label for="produto">Produto:</label>
+                    <input type="text" id="produto" name="produto" class="form-control" />
+
+                    <label for="hora">Hora:</label>
+                    <input type="number" id="hora" name="hora" class="form-control" />
+
+                    <div class="button-modal mt-3">
+                        <button type="button" class="btn btn-primary" id="btnInserirCorte">
                             Create
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('addModal-PH')">
+                            Cancelar
                         </button>
                     </div>
                 </div>
@@ -1129,6 +1146,10 @@
         }
 
           $("#MyTable").DataTable({
+            paging: false,        
+            searching: false,    
+            info: false,         
+            ordering: false,     
             responsive: true,
             language: {
                url: "@Url.Content("~/lib/datatable/pt-BR.json")"
@@ -1181,7 +1202,7 @@
         }
 
         $('.select2').select2({
-            width: '100%',
+            //width: '100%',
             allowClear: true,
             placeholder: "Selecione"
         });
@@ -1244,7 +1265,7 @@
                 type: 'GET',
                 data: { cIdBarbeiro: id },
                 success: function (data) {
-                    tabela.clear(); // limpa os dados anteriores
+                    tabela.clear();
 
                     if (data && data.length > 0) {
                         let novosDados = data.map(item => [
@@ -1252,7 +1273,7 @@
                             item.cDuracao + " min",
                             `
                             <div class="text-center">
-                                <i class="fa fa-edit text-primary mr-2" style="cursor:pointer;" title="Editar"></i>
+                                <i class="fa fa-edit text-primary mr-2" style="cursor:pointer;" title="Editar" onclick="openModal()"></i>
                                 <i class="fa fa-trash text-danger" style="cursor:pointer;" title="Excluir" onclick="excluirCorte(${item.cId})"></i>
                             </div>
                             `
@@ -1295,7 +1316,6 @@
                                 showConfirmButton: false
                             });
 
-                            // Recarrega a tabela automaticamente
                             $('#cIdBarbeiro').trigger('change');
                         } else {
                             Swal.fire({
@@ -1316,5 +1336,26 @@
             }
         });
     }
+
+    $('#btnInserirCorte').click(function () {
+            const dados = {
+                cIdBarbeiro: $('#cIdBarbeiroModalAdd').val(),
+                produto: $('#produto').val(),
+                hora: $('#hora').val()
+            };
+
+            $.post('Gestao/InserirCorteBarbeiro', dados, function (resposta) {
+                if (resposta === true) {
+                Swal.fire('Sucesso', 'Corte inserido com sucesso!', 'success')
+                .then(() => {
+                    $('#cIdBarbeiro').trigger('change');
+                });
+                } else {
+                    Swal.fire('Erro', 'Ocorreu um problema ao inserir.', 'error');
+                }
+            }).fail(function () {
+                Swal.fire('Erro', 'Não foi possível conectar com o servidor.', 'error');
+            });
+        });
 
 </script>

@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace BarbeariaWeb.Areas.Identity.Models
 {
@@ -8,7 +8,9 @@ namespace BarbeariaWeb.Areas.Identity.Models
     {
         public int cId { get; set; }
         public string rStr { get; set; }
-        private static readonly string connectionString = "Server=tcp:osfedido.database.windows.net,1433;Initial Catalog=BD_Barbearia;Persist Security Info=False;User ID=dev;Password=0105Goncalves;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        //private static readonly string connectionString = "Server=tcp:osfedido.database.windows.net,1433;Initial Catalog=BD_Barbearia;Persist Security Info=False;User ID=dev;Password=0105Goncalves;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = "Server=maglev.proxy.rlwy.net;Port=53555;Database=railway;Uid=root;Pwd=RVwCUAcVqrHrbcFyRVNabDHvcfJikatE;";
+
 
         public static SelectList ObterComboGenerico(string procName, Dictionary<string, object> parametros = null)
         {
@@ -17,9 +19,9 @@ namespace BarbeariaWeb.Areas.Identity.Models
             {
                 IEnumerable<ClsCombo> listCombos;
 
-                SqlConnection con = new SqlConnection(connectionString);
+                MySqlConnection con = new MySqlConnection(connectionString);
                 DynamicParameters p = new DynamicParameters();
-                con = new SqlConnection(connectionString);
+                con = new MySqlConnection(connectionString);
 
                 if (parametros != null)
                 {
